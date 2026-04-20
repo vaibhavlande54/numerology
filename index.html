@@ -1,0 +1,1559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mystical Numerology - Life Path & Destiny Calculator</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --gold: #d4af37;
+            --dark-blue: #0a0e27;
+            --dark-purple: #1a0033;
+            --deep-purple: #2d1b4e;
+            --light-purple: #9d4edd;
+            --text-light: #e0e0e0;
+            --text-dark: #1a1a1a;
+            --accent: #f72585;
+            --success: #06ffa5;
+        }
+
+        body {
+            font-family: 'Poppins', 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, var(--dark-purple) 0%, var(--dark-blue) 100%);
+            color: var(--text-light);
+            line-height: 1.6;
+            min-height: 100vh;
+            transition: background 0.3s;
+        }
+
+        body.light-mode {
+            background: linear-gradient(135deg, #f5f3ff 0%, #e0e7ff 100%);
+            color: var(--text-dark);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header & Navigation */
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, rgba(157, 78, 221, 0.2) 0%, rgba(247, 37, 133, 0.1) 100%);
+            border-radius: 20px;
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        header h1 {
+            font-size: 3.5em;
+            background: linear-gradient(135deg, var(--gold) 0%, var(--light-purple) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+            text-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+        }
+
+        header p {
+            font-size: 1.2em;
+            color: var(--text-light);
+            position: relative;
+            z-index: 1;
+            opacity: 0.9;
+        }
+
+        .mode-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .mode-btn {
+            background: rgba(157, 78, 221, 0.3);
+            border: 2px solid var(--light-purple);
+            color: var(--gold);
+            padding: 10px 15px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2em;
+            transition: all 0.3s;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .mode-btn:hover {
+            background: rgba(157, 78, 221, 0.5);
+            transform: rotate(20deg);
+        }
+
+        body.light-mode .mode-btn {
+            background: rgba(100, 100, 255, 0.2);
+            border-color: #6366f1;
+            color: #6366f1;
+        }
+
+        /* Tabs Navigation */
+        .nav-tabs {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+            position: sticky;
+            top: 20px;
+            background: rgba(26, 3, 51, 0.8);
+            padding: 15px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            z-index: 100;
+        }
+
+        body.light-mode .nav-tabs {
+            background: rgba(255, 255, 255, 0.7);
+        }
+
+        .nav-tabs button {
+            padding: 12px 24px;
+            border: 2px solid transparent;
+            background: rgba(157, 78, 221, 0.2);
+            color: var(--text-light);
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            border-radius: 12px;
+            transition: all 0.3s;
+        }
+
+        .nav-tabs button:hover {
+            background: rgba(157, 78, 221, 0.4);
+            border-color: var(--light-purple);
+            transform: translateY(-2px);
+        }
+
+        .nav-tabs button.active {
+            background: linear-gradient(135deg, var(--light-purple), var(--accent));
+            color: white;
+            border-color: var(--gold);
+            box-shadow: 0 0 20px rgba(247, 37, 133, 0.3);
+        }
+
+        body.light-mode .nav-tabs button {
+            background: rgba(100, 100, 255, 0.1);
+            color: var(--text-dark);
+        }
+
+        body.light-mode .nav-tabs button.active {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+        }
+
+        /* Tab Content */
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(20px);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 5px 20px rgba(157, 78, 221, 0.4);
+            }
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 8px 30px rgba(157, 78, 221, 0.6);
+            }
+        }
+
+        /* Cards */
+        .card {
+            background: rgba(45, 27, 78, 0.6);
+            border: 2px solid rgba(212, 175, 55, 0.2);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s;
+        }
+
+        .card:hover {
+            border-color: rgba(212, 175, 55, 0.4);
+            box-shadow: 0 12px 48px rgba(212, 175, 55, 0.1);
+            transform: translateY(-5px);
+        }
+
+        body.light-mode .card {
+            background: rgba(255, 255, 255, 0.8);
+            border-color: rgba(100, 100, 255, 0.2);
+            color: var(--text-dark);
+        }
+
+        .card h2 {
+            color: var(--gold);
+            margin-bottom: 20px;
+            font-size: 2em;
+        }
+
+        .card h3 {
+            color: var(--light-purple);
+            margin-top: 20px;
+            margin-bottom: 15px;
+        }
+
+        /* Form Elements */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--gold);
+            font-size: 0.95em;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            border-radius: 12px;
+            background: rgba(26, 3, 51, 0.5);
+            color: var(--text-light);
+            font-size: 1em;
+            font-family: inherit;
+            transition: all 0.3s;
+        }
+
+        input::placeholder, select option {
+            color: rgba(224, 224, 224, 0.6);
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--gold);
+            background: rgba(45, 27, 78, 0.8);
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
+        }
+
+        body.light-mode input, body.light-mode select {
+            background: rgba(255, 255, 255, 0.9);
+            border-color: rgba(100, 100, 255, 0.3);
+            color: var(--text-dark);
+        }
+
+        body.light-mode input:focus, body.light-mode select:focus {
+            border-color: #6366f1;
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.2);
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 14px 32px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin: 10px 10px 10px 0;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--light-purple), var(--accent));
+            color: white;
+            box-shadow: 0 5px 20px rgba(247, 37, 133, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(247, 37, 133, 0.5);
+        }
+
+        .btn-secondary {
+            background: rgba(212, 175, 55, 0.2);
+            color: var(--gold);
+            border: 2px solid var(--gold);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(212, 175, 55, 0.3);
+            transform: translateY(-3px);
+        }
+
+        .btn-small {
+            padding: 10px 20px;
+            font-size: 0.9em;
+        }
+
+        /* Grid Layouts */
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        /* Number Display */
+        .number-circle {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--light-purple), var(--accent));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3em;
+            font-weight: bold;
+            color: white;
+            box-shadow: 0 5px 20px rgba(157, 78, 221, 0.4);
+            margin: 0 auto;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .number-card {
+            background: rgba(157, 78, 221, 0.2);
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .number-card:hover {
+            border-color: var(--gold);
+            background: rgba(157, 78, 221, 0.3);
+            transform: translateY(-5px);
+        }
+
+        .number-card h4 {
+            color: var(--gold);
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .number-card .number {
+            font-size: 2.5em;
+            color: var(--light-purple);
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        /* Lo Shu Grid */
+        .loshu-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin: 30px auto;
+            max-width: 400px;
+            padding: 20px;
+            background: rgba(26, 3, 51, 0.4);
+            border: 2px solid var(--gold);
+            border-radius: 15px;
+        }
+
+        .loshu-cell {
+            width: 100%;
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 3px solid rgba(212, 175, 55, 0.4);
+            border-radius: 12px;
+            background: rgba(45, 27, 78, 0.6);
+            font-size: 1.8em;
+            font-weight: bold;
+            color: var(--light-purple);
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .loshu-cell:hover {
+            border-color: var(--gold);
+            background: rgba(157, 78, 221, 0.3);
+            transform: scale(1.05);
+        }
+
+        .loshu-cell.present {
+            background: linear-gradient(135deg, var(--light-purple), var(--accent));
+            color: white;
+            border-color: var(--gold);
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+        }
+
+        .loshu-cell.missing {
+            background: rgba(200, 50, 50, 0.2);
+            color: #ff6b6b;
+            border-color: #ff6b6b;
+            opacity: 0.6;
+        }
+
+        .loshu-cell.missing::after {
+            content: '✗';
+            position: absolute;
+            top: -8px;
+            right: 5px;
+            font-size: 1.2em;
+            color: #ff6b6b;
+        }
+
+        /* Predictions Section */
+        .prediction-timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+
+        .prediction-item {
+            background: rgba(157, 78, 221, 0.2);
+            border-left: 5px solid var(--gold);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: all 0.3s;
+        }
+
+        .prediction-item:hover {
+            border-left-color: var(--accent);
+            background: rgba(157, 78, 221, 0.3);
+            transform: translateX(10px);
+        }
+
+        .prediction-item h4 {
+            color: var(--gold);
+            margin-bottom: 10px;
+            font-size: 1.3em;
+        }
+
+        .prediction-item p {
+            margin-bottom: 8px;
+            line-height: 1.8;
+        }
+
+        .prediction-item strong {
+            color: var(--light-purple);
+        }
+
+        /* Famous Personalities */
+        .personality-card {
+            background: linear-gradient(135deg, rgba(157, 78, 221, 0.3), rgba(247, 37, 133, 0.2));
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .personality-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--gold);
+            box-shadow: 0 10px 30px rgba(157, 78, 221, 0.2);
+        }
+
+        .personality-card .name {
+            color: var(--gold);
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .personality-card .lifenum {
+            color: var(--light-purple);
+            font-size: 2em;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .personality-card .story {
+            font-size: 0.95em;
+            line-height: 1.6;
+            color: var(--text-light);
+        }
+
+        /* Report Section */
+        .report-content {
+            background: rgba(26, 3, 51, 0.4);
+            border: 2px solid var(--gold);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 20px 0;
+        }
+
+        .report-section {
+            margin-bottom: 30px;
+        }
+
+        .report-section h3 {
+            color: var(--gold);
+            border-bottom: 2px solid var(--gold);
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2.2em;
+            }
+
+            .container {
+                padding: 10px;
+            }
+
+            .card {
+                padding: 20px;
+            }
+
+            .nav-tabs {
+                position: static;
+                margin-bottom: 20px;
+            }
+
+            .form-row, .grid-2, .grid-3 {
+                grid-template-columns: 1fr !important;
+            }
+
+            .number-circle {
+                width: 80px;
+                height: 80px;
+                font-size: 2em;
+            }
+
+            .loshu-grid {
+                max-width: 300px;
+            }
+
+            .loshu-cell {
+                font-size: 1.4em;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+
+        /* Print Styles */
+        @media print {
+            body, body.light-mode {
+                background: white;
+                color: #000;
+            }
+
+            .nav-tabs, .action-buttons, .mode-toggle {
+                display: none !important;
+            }
+
+            .card {
+                background: white;
+                border: 1px solid #ccc;
+                box-shadow: none;
+                break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Mode Toggle -->
+    <button class="mode-btn" onclick="toggleDarkMode()" title="Toggle Theme">🌙</button>
+
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <h1>✨ Mystical Numerology ✨</h1>
+            <p>Discover Your Life Path, Destiny & Hidden Potential Through Divine Numbers</p>
+        </header>
+
+        <!-- Navigation Tabs -->
+        <div class="nav-tabs">
+            <button class="active" onclick="switchTab('calculator')">Calculator</button>
+            <button onclick="switchTab('loshu')">Lo Shu Grid</button>
+            <button onclick="switchTab('predictions')">5-Year Predictions</button>
+            <button onclick="switchTab('celebrities')">Famous Personalities</button>
+            <button onclick="switchTab('report')">Full Report</button>
+            <button onclick="switchTab('guide')">Guide</button>
+        </div>
+
+        <!-- CALCULATOR TAB -->
+        <div id="calculator" class="tab-content active">
+            <div class="card">
+                <h2>📊 Numerology Calculator</h2>
+                <p style="margin-bottom: 30px;">Enter your details to unlock your numerological profile and discover your life's purpose.</p>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="fullName">Full Name (as per birth certificate)</label>
+                        <input type="text" id="fullName" placeholder="Enter your full name">
+                    </div>
+                    <div class="form-group">
+                        <label for="dob">Date of Birth</label>
+                        <input type="date" id="dob">
+                    </div>
+                    <div class="form-group">
+                        <label for="gender">Gender (Optional)</label>
+                        <select id="gender">
+                            <option value="">Select Gender</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button class="btn btn-primary" onclick="calculateAllNumbers()">🔮 Calculate My Numbers</button>
+
+                <!-- Results -->
+                <div id="calculatorResults" style="margin-top: 40px;"></div>
+            </div>
+        </div>
+
+        <!-- LO SHU GRID TAB -->
+        <div id="loshu" class="tab-content">
+            <div class="card">
+                <h2>🔯 Lo Shu Grid Analysis</h2>
+                <p style="margin-bottom: 30px;">The Lo Shu Grid is a 3x3 magic square derived from your date of birth digits. It reveals your strengths and areas for development.</p>
+
+                <div id="loshuResults" style="margin-top: 30px;"></div>
+            </div>
+        </div>
+
+        <!-- PREDICTIONS TAB -->
+        <div id="predictions" class="tab-content">
+            <div class="card">
+                <h2>🌟 5-Year Predictions</h2>
+                <p style="margin-bottom: 30px;">Discover what the numbers reveal about your future across career, finance, health, and relationships.</p>
+
+                <div id="predictionsResults" style="margin-top: 30px;"></div>
+            </div>
+        </div>
+
+        <!-- CELEBRITIES TAB -->
+        <div id="celebrities" class="tab-content">
+            <div class="card">
+                <h2>⭐ Famous Personalities</h2>
+                <p style="margin-bottom: 30px;">Discover famous people who share your Life Path Number.</p>
+
+                <div id="celebritiesResults" class="grid-3"></div>
+            </div>
+        </div>
+
+        <!-- REPORT TAB -->
+        <div id="report" class="tab-content">
+            <div class="card">
+                <h2>📋 Full Numerological Report</h2>
+                <p style="margin-bottom: 30px;">Your comprehensive numerological profile and insights.</p>
+
+                <div id="reportResults" style="margin-top: 30px;"></div>
+
+                <div class="action-buttons">
+                    <button class="btn btn-primary" onclick="downloadPDF()">📥 Download as PDF</button>
+                    <button class="btn btn-secondary" onclick="shareResult()">🔗 Share Result</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- GUIDE TAB -->
+        <div id="guide" class="tab-content">
+            <div class="card">
+                <h2>📚 Numerology Guide</h2>
+
+                <h3>Understanding the Numbers 1-9</h3>
+                <div class="grid-3" style="margin-bottom: 30px;">
+                    <div class="number-card">
+                        <h4>1️⃣ Number 1</h4>
+                        <p><strong>Leadership, Independence, Innovation</strong></p>
+                        <p>Natural born leaders, pioneers and innovators</p>
+                    </div>
+                    <div class="number-card">
+                        <h4>2️⃣ Number 2</h4>
+                        <p><strong>Cooperation, Diplomacy, Balance</strong></p>
+                        <p>Peacemakers and harmonious souls</p>
+                    </div>
+                    <div class="number-card">
+                        <h4>3️⃣ Number 3</h4>
+                        <p><strong>Creativity, Communication, Joy</strong></p>
+                        <p>Artists and expressive communicators</p>
+                    </div>
+                    <div class="number-card">
+                        <h4>4️⃣ Number 4</h4>
+                        <p><strong>Stability, Order, Foundation</strong></p>
+                        <p>Builders of lasting structures</p>
+                    </div>
+                    <div class="number-card">
+                        <h4>5️⃣ Number 5</h4>
+                        <p><strong>Freedom, Adventure, Change</strong></p>
+                        <p>Adventurers and dynamic explorers</p>
+                    </div>
+                    <div class="number-card">
+                        <h4>6️⃣ Number 6</h4>
+                        <p><strong>Harmony, Family, Responsibility</strong></p>
+                        <p>Nurturers and devoted caregivers</p>
+                    </div>
+                    <div class="number-card">
+                        <h4>7️⃣ Number 7</h4>
+                        <p><strong>Spirituality, Wisdom, Analysis</strong></p>
+                        <p>Spiritual seekers and deep thinkers</p>
+                    </div>
+                    <div class="number-card">
+                        <h4>8️⃣ Number 8</h4>
+                        <p><strong>Abundance, Power, Material Success</strong></p>
+                        <p>Ambitious achievers and wealth builders</p>
+                    </div>
+                    <div class="number-card">
+                        <h4>9️⃣ Number 9</h4>
+                        <p><strong>Compassion, Completion, Humanity</strong></p>
+                        <p>Humanitarians and service-oriented souls</p>
+                    </div>
+                </div>
+
+                <h3>Master Numbers</h3>
+                <div class="grid-3">
+                    <div class="number-card">
+                        <h4>11 - Master Intuitive</h4>
+                        <p>Spiritual insight and intuition</p>
+                    </div>
+                    <div class="number-card">
+                        <h4>22 - Master Builder</h4>
+                        <p>Manifesting dreams into reality</p>
+                    </div>
+                    <div class="number-card">
+                        <h4>33 - Master Teacher</h4>
+                        <p>Spiritual communication and healing</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+    <script>
+        // ============ THEME MANAGEMENT ============
+        function toggleDarkMode() {
+            const body = document.body;
+            const isDark = body.classList.contains('light-mode');
+            
+            if (isDark) {
+                body.classList.remove('light-mode');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                body.classList.add('light-mode');
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        // Load theme on startup
+        window.addEventListener('DOMContentLoaded', function() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'light') {
+                document.body.classList.add('light-mode');
+            }
+        });
+
+        // ============ NUMEROLOGY CALCULATIONS ============
+        
+        function reduceToSingleDigit(num) {
+            if (num === 11 || num === 22 || num === 33) return num;
+            while (num >= 10) {
+                num = num.toString().split('').reduce((a, b) => parseInt(a) + parseInt(b), 0);
+            }
+            return num;
+        }
+
+        function calculateLifePath(dateStr) {
+            const [year, month, day] = dateStr.split('-').map(Number);
+            const yearSum = year.toString().split('').reduce((a, b) => parseInt(a) + parseInt(b), 0);
+            const monthSum = month;
+            const daySum = day;
+            const total = yearSum + monthSum + daySum;
+            return reduceToSingleDigit(total);
+        }
+
+        function calculateDestiny(name) {
+            const letterValues = {
+                'a': 1, 'b': 2, 'c': 3, 'd': 4, 'e': 5, 'f': 6, 'g': 7, 'h': 8, 'i': 9,
+                'j': 1, 'k': 2, 'l': 3, 'm': 4, 'n': 5, 'o': 6, 'p': 7, 'q': 8, 'r': 9,
+                's': 1, 't': 2, 'u': 3, 'v': 4, 'w': 5, 'x': 6, 'y': 7, 'z': 8
+            };
+            
+            let sum = 0;
+            name.toLowerCase().split('').forEach(char => {
+                if (letterValues[char]) sum += letterValues[char];
+            });
+            return reduceToSingleDigit(sum);
+        }
+
+        function calculateSoulUrge(name) {
+            const vowels = { 'a': 1, 'e': 5, 'i': 9, 'o': 6, 'u': 3 };
+            let sum = 0;
+            name.toLowerCase().split('').forEach(char => {
+                if (vowels[char]) sum += vowels[char];
+            });
+            return reduceToSingleDigit(sum);
+        }
+
+        function calculatePersonality(name) {
+            const letterValues = {
+                'a': 1, 'b': 2, 'c': 3, 'd': 4, 'e': 5, 'f': 6, 'g': 7, 'h': 8, 'i': 9,
+                'j': 1, 'k': 2, 'l': 3, 'm': 4, 'n': 5, 'o': 6, 'p': 7, 'q': 8, 'r': 9,
+                's': 1, 't': 2, 'u': 3, 'v': 4, 'w': 5, 'x': 6, 'y': 7, 'z': 8
+            };
+            const vowels = 'aeiou';
+            
+            let sum = 0;
+            name.toLowerCase().split('').forEach(char => {
+                if (letterValues[char] && !vowels.includes(char)) sum += letterValues[char];
+            });
+            return reduceToSingleDigit(sum);
+        }
+
+        function calculateBirthday(dateStr) {
+            const [year, month, day] = dateStr.split('-').map(Number);
+            return reduceToSingleDigit(day);
+        }
+
+        function calculatePersonalYear(month, day, currentYear) {
+            const sum = month + day + currentYear;
+            return reduceToSingleDigit(sum);
+        }
+
+        function generateLoShuGrid(dateStr) {
+            const [year, month, day] = dateStr.split('-').map(Number);
+            const digits = (year + '' + String(month).padStart(2, '0') + String(day).padStart(2, '0')).split('').map(Number).filter(d => d !== 0);
+            
+            const present = new Set(digits);
+            const missing = [];
+            for (let i = 1; i <= 9; i++) {
+                if (!present.has(i)) missing.push(i);
+            }
+
+            return { present, missing };
+        }
+
+        // ============ DATABASES ============
+
+        const numberInterpretations = {
+            1: {
+                name: "Leader",
+                traits: "Ambitious, independent, determined, courageous",
+                career: "Entrepreneur, Manager, Executive, Innovator",
+                love: "Loyal partner who values independence and adventure",
+                color: "Red",
+                stone: "Ruby, Garnet",
+                metal: "Iron, Copper",
+                mantra: "I am a natural leader"
+            },
+            2: {
+                name: "Peacemaker",
+                traits: "Diplomatic, sensitive, cooperative, intuitive",
+                career: "Diplomat, Counselor, Mediator, Artist",
+                love: "Supportive partner seeking harmony and balance",
+                color: "Green, White",
+                stone: "Pearl, Moonstone",
+                metal: "Silver",
+                mantra: "I bring peace and harmony"
+            },
+            3: {
+                name: "Creator",
+                traits: "Creative, expressive, communicative, optimistic",
+                career: "Artist, Writer, Entertainer, Teacher",
+                love: "Fun-loving partner who values creative expression",
+                color: "Yellow, Gold",
+                stone: "Amber, Citrine",
+                metal: "Gold",
+                mantra: "I express my creativity freely"
+            },
+            4: {
+                name: "Builder",
+                traits: "Practical, organized, stable, disciplined",
+                career: "Engineer, Architect, Administrator, Accountant",
+                love: "Reliable partner who builds lasting foundations",
+                color: "Blue, Green",
+                stone: "Emerald, Sapphire",
+                metal: "Platinum",
+                mantra: "I build solid foundations"
+            },
+            5: {
+                name: "Adventurer",
+                traits: "Free-spirited, dynamic, versatile, curious",
+                career: "Travel Agent, Journalist, Salesperson, Actor",
+                love: "Adventurous partner seeking excitement and variety",
+                color: "Orange",
+                stone: "Agate, Tourmaline",
+                metal: "Mercury",
+                mantra: "I embrace change and adventure"
+            },
+            6: {
+                name: "Caregiver",
+                traits: "Nurturing, responsible, compassionate, family-oriented",
+                career: "Counselor, Doctor, Teacher, Social Worker",
+                love: "Devoted partner devoted to family and care",
+                color: "Pink, Purple",
+                stone: "Rose Quartz, Amethyst",
+                metal: "Copper",
+                mantra: "I care for those around me"
+            },
+            7: {
+                name: "Spiritual Seeker",
+                traits: "Analytical, spiritual, intuitive, philosophical",
+                career: "Researcher, Scientist, Spiritual Guide, Analyst",
+                love: "Deep-thinking partner seeking spiritual connection",
+                color: "Violet, Indigo",
+                stone: "Amethyst, Sapphire",
+                metal: "Silver",
+                mantra: "I seek spiritual truth"
+            },
+            8: {
+                name: "Achiever",
+                traits: "Ambitious, powerful, authoritative, material-minded",
+                career: "Executive, Entrepreneur, Manager, Financier",
+                love: "Ambitious partner seeking success and abundance",
+                color: "Black, Gold",
+                stone: "Black Tourmaline, Diamond",
+                metal: "Gold, Platinum",
+                mantra: "I attract abundance and success"
+            },
+            9: {
+                name: "Humanitarian",
+                traits: "Compassionate, idealistic, generous, universal",
+                career: "Activist, Humanitarian, Counselor, Artist",
+                love: "Compassionate partner with universal love for humanity",
+                color: "Red, Green",
+                stone: "Carnelian, Aventurine",
+                metal: "Copper",
+                mantra: "I serve humanity with compassion"
+            }
+        };
+
+        const remediesDatabase = {
+            1: {
+                color: "Red, Orange",
+                stone: "Ruby, Carnelian",
+                metal: "Copper",
+                day: "Monday",
+                mantra: "I am a powerful leader and creator of my destiny",
+                tips: [
+                    "Wear red or orange on important days",
+                    "Practice meditation to harness your inner power",
+                    "Accept leadership roles and responsibilities",
+                    "Exercise and stay physically active",
+                    "Donate to social causes"
+                ]
+            },
+            2: {
+                color: "Green, White",
+                stone: "Pearl, Moonstone",
+                metal: "Silver",
+                day: "Monday",
+                mantra: "I attract harmony, balance, and peaceful relationships",
+                tips: [
+                    "Wear pearls or moonstone",
+                    "Practice yoga for balance and harmony",
+                    "Meditate on inner peace and cooperation",
+                    "Spend time with loved ones monthly",
+                    "Keep your environment clean and organized"
+                ]
+            },
+            3: {
+                color: "Yellow, Orange",
+                stone: "Citrine, Yellow Topaz",
+                metal: "Gold",
+                day: "Thursday",
+                mantra: "My creativity flows freely and brings joy to my life",
+                tips: [
+                    "Engage in creative activities regularly",
+                    "Wear yellow or orange clothing",
+                    "Keep citrine in your workspace",
+                    "Journal your thoughts and feelings",
+                    "Spend time with creative people"
+                ]
+            },
+            4: {
+                color: "Blue, Green",
+                stone: "Sapphire, Emerald",
+                metal: "Iron",
+                day: "Sunday, Wednesday",
+                mantra: "I build a strong, stable, and secure foundation for my life",
+                tips: [
+                    "Wear sapphire gem",
+                    "Focus on practical goals",
+                    "Build routines and stick to them",
+                    "Save money and plan ahead",
+                    "Practice discipline and consistency"
+                ]
+            },
+            5: {
+                color: "Green, Silver",
+                stone: "Emerald, Tourmaline",
+                metal: "Mercury",
+                day: "Wednesday",
+                mantra: "I embrace change with confidence and adaptability",
+                tips: [
+                    "Travel and explore new places",
+                    "Wear green or silver",
+                    "Think about diverse topics",
+                    "Network and connect with different people",
+                    "Learn new skills and languages"
+                ]
+            },
+            6: {
+                color: "Blue, Pink",
+                stone: "Diamond, Pink Tourmaline",
+                metal: "Copper, Brass",
+                day: "Friday",
+                mantra: "I give and receive love generously and nurture those I care for",
+                tips: [
+                    "Wear diamonds or pink tourmaline",
+                    "Practice unconditional love",
+                    "Help family members and friends",
+                    "Create a beautiful home environment",
+                    "Practice forgiveness"
+                ]
+            },
+            7: {
+                color: "Violet, Purple",
+                stone: "Amethyst, Purple Fluorite",
+                metal: "Silver",
+                day: "Saturday, Thursday",
+                mantra: "I trust my inner wisdom and spiritual guidance",
+                tips: [
+                    "Wear amethyst or purple fluorite",
+                    "Practice meditation regularly",
+                    "Study spiritual or philosophical texts",
+                    "Spend time in nature",
+                    "Trust your intuition"
+                ]
+            },
+            8: {
+                color: "Black, Dark Blue",
+                stone: "Black Tourmaline, Blue Sapphire",
+                metal: "Iron",
+                day: "Sunday, Saturday",
+                mantra: "I attract abundance, success, and prosperity in all areas",
+                tips: [
+                    "Wear black tourmaline for grounding",
+                    "Focus on financial goals",
+                    "Practice power meditation",
+                    "Build professional networks",
+                    "Invest wisely"
+                ]
+            },
+            9: {
+                color: "Red, Maroon",
+                stone: "Red Garnet, Red Tourmaline",
+                metal: "Copper",
+                day: "Tuesday",
+                mantra: "I serve humanity with compassion and make a difference",
+                tips: [
+                    "Spend time helping others",
+                    "Wear red or maroon",
+                    "Practice global awareness",
+                    "Support humanitarian causes",
+                    "Meditate on universal love"
+                ]
+            }
+        };
+
+        const celebritiesDatabase = {
+            1: [
+                { name: "Bill Gates", dob: "28-10-1955", story: "Co-founder of Microsoft and philanthropist" },
+                { name: "Martin Luther King Jr.", dob: "15-01-1929", story: "Civil rights leader and visionary" },
+                { name: "Thomas Edison", dob: "11-02-1847", story: "Inventor and entrepreneur who changed the world" }
+            ],
+            2: [
+                { name: "Gandhi", dob: "02-10-1869", story: "Peace advocate and spiritual leader" },
+                { name: "Diana, Princess of Wales", dob: "01-07-1961", story: "Compassionate humanitarian and peacemaker" },
+                { name: "Mother Teresa", dob: "26-08-1910", story: "Selfless humanitarian serving the poor" }
+            ],
+            3: [
+                { name: "Oprah Winfrey", dob: "29-01-1954", story: "Media mogul and influential communicator" },
+                { name: "Walt Disney", dob: "05-12-1901", story: "Creative visionary and entertainment pioneer" },
+                { name: "Steven Spielberg", dob: "18-12-1946", story: "Legendary filmmaker and storyteller" }
+            ],
+            4: [
+                { name: "Henry Ford", dob: "30-07-1863", story: "Industrial innovator and founder of Ford Motors" },
+                { name: "Elon Musk", dob: "28-06-1971", story: "Engineer and visionary building the future" },
+                { name: "Steve Jobs", dob: "24-02-1955", story: "Technology innovator and perfectionist" }
+            ],
+            5: [
+                { name: "Muhammad Ali", dob: "17-01-1942", story: "Champion boxer and freedom fighter" },
+                { name: "Johnny Depp", dob: "09-06-1963", story: "Versatile actor and creative risk-taker" },
+                { name: "Angelina Jolie", dob: "04-06-1975", story: "Adventurous actress and humanitarian" }
+            ],
+            6: [
+                { name: "Jesus Christ", dob: "25-12-0000", story: "Universal teacher of compassion and love" },
+                { name: "Dalai Lama", dob: "06-07-1935", story: "Spiritual leader devoted to compassion" },
+                { name: "Michelle Obama", dob: "17-01-1964", story: "Dedicated to family and social good" }
+            ],
+            7: [
+                { name: "Albert Einstein", dob: "14-03-1879", story: "Brilliant physicist and scientific genius" },
+                { name: "Stephen Hawking", dob: "08-01-1942", story: "Theoretical physicist and deep thinker" },
+                { name: "Carl Sagan", dob: "09-11-1934", story: "Astronomer and spiritual scientist" }
+            ],
+            8: [
+                { name: "Aristotle Onassis", dob: "15-09-1906", story: "Shipping magnate and wealth accumulator" },
+                { name: "Donald Trump", dob: "14-06-1946", story: "Real estate developer and business mogul" },
+                { name: "Indra Nooyi", dob: "28-10-1956", story: "Influential corporate leader and visionary" }
+            ],
+            9: [
+                { name: "John Lennon", dob: "09-10-1940", story: "Musician and peace activist" },
+                { name: "Mahatma Gandhi", dob: "02-10-1869", story: "Universal humanitarian and peacemaker" },
+                { name: "Audrey Hepburn", dob: "04-05-1929", story: "Actress and humanitarian ambassador" }
+            ]
+        };
+
+        // ============ TAB NAVIGATION ============
+
+        function switchTab(tabName) {
+            const tabs = document.querySelectorAll('.tab-content');
+            const buttons = document.querySelectorAll('.nav-tabs button');
+
+            tabs.forEach(tab => tab.classList.remove('active'));
+            buttons.forEach(btn => btn.classList.remove('active'));
+
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+
+            // Auto-populate from cached results
+            if (tabName === 'loshu' && window.currentResults) {
+                displayLoShuGrid(window.currentResults);
+            }
+            if (tabName === 'predictions' && window.currentResults) {
+                displayPredictions(window.currentResults);
+            }
+            if (tabName === 'celebrities' && window.currentResults) {
+                displayCelebrities(window.currentResults);
+            }
+            if (tabName === 'report' && window.currentResults) {
+                displayFullReport(window.currentResults);
+            }
+        }
+
+        // ============ MAIN CALCULATOR ============
+
+        function calculateAllNumbers() {
+            const fullName = document.getElementById('fullName').value.trim();
+            const dob = document.getElementById('dob').value;
+
+            if (!fullName || !dob) {
+                alert('Please enter both your full name and date of birth');
+                return;
+            }
+
+            const lifePathNum = calculateLifePath(dob);
+            const destinyNum = calculateDestiny(fullName);
+            const soulUrgeNum = calculateSoulUrge(fullName);
+            const personalityNum = calculatePersonality(fullName);
+            const birthdayNum = calculateBirthday(dob);
+
+            const results = {
+                name: fullName,
+                dob: dob,
+                lifePathNum,
+                destinyNum,
+                soulUrgeNum,
+                personalityNum,
+                birthdayNum
+            };
+
+            window.currentResults = results;
+            
+            displayCalculatorResults(results);
+            switchTab('calculator');
+        }
+
+        function displayCalculatorResults(results) {
+            const resultsDiv = document.getElementById('calculatorResults');
+            const interp = numberInterpretations[results.lifePathNum];
+
+            let html = `
+                <div style="margin-top: 40px;">
+                    <div class="grid-2">
+                        <div style="text-align: center;">
+                            <h3 style="color: var(--gold); margin-bottom: 15px;">Life Path Number</h3>
+                            <div class="number-circle">${results.lifePathNum}</div>
+                            <p style="margin-top: 20px; font-size: 1.1em;"><strong>${interp.name}</strong></p>
+                            <p style="color: var(--light-purple);">${interp.traits}</p>
+                        </div>
+                        <div>
+                            <h3 style="color: var(--gold); margin-bottom: 15px;">Your Numbers</h3>
+                            <div class="grid-2">
+                                <div class="number-card">
+                                    <h4>Destiny</h4>
+                                    <div class="number">${results.destinyNum}</div>
+                                </div>
+                                <div class="number-card">
+                                    <h4>Soul Urge</h4>
+                                    <div class="number">${results.soulUrgeNum}</div>
+                                </div>
+                                <div class="number-card">
+                                    <h4>Personality</h4>
+                                    <div class="number">${results.personalityNum}</div>
+                                </div>
+                                <div class="number-card">
+                                    <h4>Birthday</h4>
+                                    <div class="number">${results.birthdayNum}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 30px; background: rgba(157, 78, 221, 0.2); border: 2px solid var(--gold); border-radius: 15px; padding: 25px;">
+                        <h3 style="color: var(--gold); margin-bottom: 15px;">🔮 ${interp.name} Profile</h3>
+                        <p><strong style="color: var(--light-purple);">Traits:</strong> ${interp.traits}</p>
+                        <p style="margin-top: 10px;"><strong style="color: var(--light-purple);">Career Paths:</strong> ${interp.career}</p>
+                        <p style="margin-top: 10px;"><strong style="color: var(--light-purple);">Love & Relationships:</strong> ${interp.love}</p>
+                        <p style="margin-top: 10px;"><strong style="color: var(--light-purple);">Lucky Color:</strong> ${interp.color}</p>
+                        <p style="margin-top: 10px;"><strong style="color: var(--light-purple);">Lucky Stone:</strong> ${interp.stone}</p>
+                        <p style="margin-top: 10px;"><strong style="color: var(--light-purple);">Lucky Metal:</strong> ${interp.metal}</p>
+                        <p style="margin-top: 10px;"><strong style="color: var(--light-purple);">Mantra:</strong> "${interp.mantra}"</p>
+                    </div>
+                </div>
+            `;
+
+            // Add missing numbers remedies
+            const { missing } = generateLoShuGrid(results.dob);
+            if (missing.length > 0) {
+                html += `
+                    <div style="margin-top: 40px; background: linear-gradient(135deg, rgba(255, 107, 107, 0.2), rgba(255, 107, 107, 0.1)); border: 2px solid #ff6b6b; border-radius: 15px; padding: 25px;">
+                        <h3 style="color: #ff6b6b; margin-bottom: 20px;">🌟 Remedies for Missing Numbers</h3>
+                        <p style="margin-bottom: 20px; color: #ff9999;">These numbers are absent from your chart. Using these remedies will help balance and strengthen these areas in your life:</p>
+                        <div class="grid-3">
+                `;
+
+                missing.forEach(num => {
+                    const remedy = remediesDatabase[num];
+                    html += `
+                        <div style="background: rgba(255, 107, 107, 0.1); border: 2px solid #ff6b6b; border-radius: 12px; padding: 15px; transition: all 0.3s;">
+                            <h4 style="color: #ff6b6b; margin-bottom: 12px; font-size: 1.1em;">Number ${num}</h4>
+                            <p style="font-size: 0.9em; color: #ff9999; margin-bottom: 8px;"><strong>Color:</strong> ${remedy.color}</p>
+                            <p style="font-size: 0.9em; color: #ff9999; margin-bottom: 8px;"><strong>Stone:</strong> ${remedy.stone}</p>
+                            <p style="font-size: 0.9em; color: #ff9999; margin-bottom: 8px;"><strong>Metal:</strong> ${remedy.metal}</p>
+                            <p style="font-size: 0.9em; color: #ff9999; margin-bottom: 10px;"><strong>Day:</strong> ${remedy.day}</p>
+                            <p style="font-size: 0.85em; font-style: italic; color: #ffb3b3; margin-bottom: 10px;">"${remedy.mantra}"</p>
+                            <div style="background: rgba(255, 107, 107, 0.05); border-left: 3px solid #ff6b6b; padding: 10px; border-radius: 5px;">
+                                <p style="font-size: 0.85em; color: #ff9999; line-height: 1.5;">
+                                    ${remedy.tips.slice(0, 3).map((tip, i) => `<strong>•</strong> ${tip}`).join('<br>')}
+                                </p>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                html += `
+                        </div>
+                    </div>
+                `;
+            }
+
+            resultsDiv.innerHTML = html;
+        }
+
+        // ============ LO SHU GRID DISPLAY ============
+
+        function displayLoShuGrid(results) {
+            const { present, missing } = generateLoShuGrid(results.dob);
+            const resultsDiv = document.getElementById('loshuResults');
+
+            let gridHTML = '<div class="loshu-grid">';
+            for (let i = 1; i <= 9; i++) {
+                const isPresent = present.has(i);
+                const cellClass = isPresent ? 'present' : (missing.includes(i) ? 'missing' : '');
+                gridHTML += `<div class="loshu-cell ${cellClass}">${i}</div>`;
+            }
+            gridHTML += '</div>';
+
+            let html = `
+                <p style="margin-bottom: 20px; font-style: italic; color: var(--light-purple);">
+                    Your Lo Shu Grid is derived from your birth date digits. Present numbers show your strengths. Missing numbers suggest areas for development.
+                </p>
+
+                ${gridHTML}
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 30px;">
+                    <div style="background: rgba(157, 78, 221, 0.2); border: 2px solid var(--light-purple); border-radius: 12px; padding: 20px;">
+                        <h4 style="color: var(--light-purple); margin-bottom: 10px;">✓ Present Numbers</h4>
+                        <p style="font-size: 1.3em; color: var(--gold);">${Array.from(present).sort((a,b) => a-b).join(', ')}</p>
+                        <p style="margin-top: 10px; font-size: 0.9em;">These represent your natural strengths and talents.</p>
+                    </div>
+                    <div style="background: rgba(200, 50, 50, 0.2); border: 2px solid #ff6b6b; border-radius: 12px; padding: 20px;">
+                        <h4 style="color: #ff6b6b; margin-bottom: 10px;">✗ Missing Numbers</h4>
+                        <p style="font-size: 1.3em; color: #ff9999;">${missing.join(', ')}</p>
+                        <p style="margin-top: 10px; font-size: 0.9em;">These areas need development and attention.</p>
+                    </div>
+                </div>
+            `;
+
+            resultsDiv.innerHTML = html;
+        }
+
+        // ============ 5-YEAR PREDICTIONS ============
+
+        function displayPredictions(results) {
+            const resultsDiv = document.getElementById('predictionsResults');
+            const today = new Date();
+            const startYear = today.getFullYear();
+
+            let html = '<div class="prediction-timeline">';
+            
+            for (let i = 0; i < 5; i++) {
+                const year = startYear + i;
+                const [dateYear, dateMonth, dateDay] = results.dob.split('-').map(Number);
+                const personalYear = calculatePersonalYear(dateMonth, dateDay, year);
+                
+                html += `
+                    <div class="prediction-item">
+                        <h4>${year} - Personal Year ${personalYear}</h4>
+                        <p><strong style="color: var(--gold);">Career & Finance:</strong> ${getYearPrediction(personalYear, 'career')}</p>
+                        <p style="margin-top: 10px;"><strong style="color: var(--gold);">Health & Energy:</strong> ${getYearPrediction(personalYear, 'health')}</p>
+                        <p style="margin-top: 10px;"><strong style="color: var(--gold);">Relationships:</strong> ${getYearPrediction(personalYear, 'relationships')}</p>
+                        <p style="margin-top: 10px;"><strong style="color: var(--gold);">Focus:</strong> ${getYearPrediction(personalYear, 'focus')}</p>
+                    </div>
+                `;
+            }
+
+            html += '</div>';
+            resultsDiv.innerHTML = html;
+        }
+
+        function getYearPrediction(yearNum, category) {
+            const predictions = {
+                1: {
+                    career: "New beginnings, leadership opportunities, starting projects",
+                    health: "High energy, good vitality, focus on exercise",
+                    relationships: "New connections, fresh starts in love",
+                    focus: "Initiative, courage, independence"
+                },
+                2: {
+                    career: "Cooperation, partnerships, patience with growth",
+                    health: "Balance needed, avoid stress, meditate",
+                    relationships: "Harmony and understanding with partners",
+                    focus: "Diplomacy, support, intuition"
+                },
+                3: {
+                    career: "Communication, creativity, expansion",
+                    health: "Positive energy, social activities, self-expression",
+                    relationships: "Joy, laughter, social gatherings",
+                    focus: "Creativity, communication, optimism"
+                },
+                4: {
+                    career: "Hard work, building foundations, organization",
+                    health: "Discipline needed, consistent exercise routine",
+                    relationships: "Deepening bonds, commitment",
+                    focus: "Structure, stability, foundation building"
+                },
+                5: {
+                    career: "Changes, adaptability, new opportunities",
+                    health: "Energy and vitality, enjoy movement",
+                    relationships: "Adventure, excitement, new experiences together",
+                    focus: "Freedom, adventure, flexibility"
+                },
+                6: {
+                    career: "Family focus, responsibility, service",
+                    health: "Care for self and family, nurturing",
+                    relationships: "Family matters, responsibility, care",
+                    focus: "Harmony, family, responsibility, service"
+                },
+                7: {
+                    career: "Reflection, analysis, spiritual growth",
+                    health: "Introspection, meditation, spiritual practices",
+                    relationships: "Deep thinking, spiritual connection",
+                    focus: "Wisdom, spirituality, analysis, truth"
+                },
+                8: {
+                    career: "Material success, power, achievement",
+                    health: "Strength and vitality, competitive spirit",
+                    relationships: "Abundance and stability with partner",
+                    focus: "Abundance, power, success, achievement"
+                },
+                9: {
+                    career: "Completion, transformation, service",
+                    health: "Regeneration, release, healing",
+                    relationships: "Compassion, universal love, endings lead to new begins",
+                    focus: "Completion, compassion, humanity, transformation"
+                }
+            };
+            return predictions[yearNum][category];
+        }
+
+        // ============ CELEBRITIES DISPLAY ============
+
+        function displayCelebrities(results) {
+            const resultsDiv = document.getElementById('celebritiesResults');
+            const celebrities = celebritiesDatabase[results.lifePathNum] || [];
+
+            let html = '';
+            celebrities.forEach(celeb => {
+                html += `
+                    <div class="personality-card">
+                        <div class="name">${celeb.name}</div>
+                        <div class="lifenum">${results.lifePathNum}</div>
+                        <div style="font-size: 0.9em; margin-bottom: 10px; color: rgba(224, 224, 224, 0.7);">${celeb.dob}</div>
+                        <div class="story">${celeb.story}</div>
+                    </div>
+                `;
+            });
+
+            resultsDiv.innerHTML = html;
+        }
+
+        // ============ FULL REPORT DISPLAY ============
+
+        function displayFullReport(results) {
+            const resultsDiv = document.getElementById('reportResults');
+            const interp = numberInterpretations[results.lifePathNum];
+
+            let html = `
+                <div class="report-content">
+                    <div class="report-section">
+                        <h3>Personal Information</h3>
+                        <p><strong>Name:</strong> ${results.name}</p>
+                        <p><strong>Date of Birth:</strong> ${results.dob}</p>
+                    </div>
+
+                    <div class="report-section">
+                        <h3>Life Path Number ${results.lifePathNum}</h3>
+                        <p><strong>Profile:</strong> ${interp.name}</p>
+                        <p><strong>Traits:</strong> ${interp.traits}</p>
+                        <p><strong>Career Paths:</strong> ${interp.career}</p>
+                        <p><strong>Love & Relationships:</strong> ${interp.love}</p>
+                    </div>
+
+                    <div class="report-section">
+                        <h3>Numerological Numbers</h3>
+                        <p><strong>Destiny Number ${results.destinyNum}:</strong> Represents your ultimate life goals and talents.</p>
+                        <p style="margin-top: 10px;"><strong>Soul Urge Number ${results.soulUrgeNum}:</strong> Represents your inner desires and motivations.</p>
+                        <p style="margin-top: 10px;"><strong>Personality Number ${results.personalityNum}:</strong> How you appear to the world.</p>
+                        <p style="margin-top: 10px;"><strong>Birthday Number ${results.birthdayNum}:</strong> Represents your natural talents and abilities.</p>
+                    </div>
+
+                    <div class="report-section">
+                        <h3>Lucky Elements</h3>
+                        <p><strong>Color:</strong> ${interp.color}</p>
+                        <p><strong>Stone:</strong> ${interp.stone}</p>
+                        <p><strong>Metal:</strong> ${interp.metal}</p>
+                        <p><strong>Mantra:</strong> <em>"${interp.mantra}"</em></p>
+                    </div>
+                </div>
+            `;
+
+            resultsDiv.innerHTML = html;
+        }
+
+        // ============ PDF DOWNLOAD ============
+
+        function downloadPDF() {
+            if (!window.currentResults) {
+                alert('Please calculate your numbers first');
+                return;
+            }
+
+            const element = document.getElementById('reportResults');
+            const opt = {
+                margin: 10,
+                filename: `Numerology_Report_${window.currentResults.name}.pdf`,
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { orientation: 'portrait', unit: 'mm', format: 'a4' }
+            };
+
+            html2pdf().set(opt).from(element).save();
+        }
+
+        // ============ SHARE FUNCTIONALITY ============
+
+        function shareResult() {
+            if (!window.currentResults) {
+                alert('Please calculate your numbers first');
+                return;
+            }
+
+            const shareText = `I'm a Life Path Number ${window.currentResults.lifePathNum} - ${numberInterpretations[window.currentResults.lifePathNum].name}! Check out my numerology profile!`;
+
+            if (navigator.share) {
+                navigator.share({
+                    title: 'My Numerology Profile',
+                    text: shareText,
+                    url: window.location.href
+                });
+            } else {
+                alert(shareText + '\n\nShare this on your social media!');
+            }
+        }
+    </script>
+</body>
+</html>
