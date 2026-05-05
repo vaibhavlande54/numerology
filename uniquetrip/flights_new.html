@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light dark">
+    <title>Flights | UniqueTrip</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- External CSS -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="flights.css">
+</head>
+<body>
+    <nav class="navbar" role="navigation" aria-label="Main Navigation">
+        <a href="index_new.html" class="logo">UniqueTrip</a>
+        <button class="nav-toggle" aria-label="Open navigation" aria-controls="nav-links" aria-expanded="false" tabindex="0">☰</button>
+        <ul class="nav-links" id="nav-links">
+            <li><a href="index_new.html">Home</a></li>
+            <li><a href="flights_new.html">Flights</a></li>
+            <li><a href="hotels_new.html">Hotels</a></li>
+            <li><a href="holidays_new.html">Holidays</a></li>
+            <li><a href="trains_new.html">Trains</a></li>
+            <li><a href="buses_new.html">Buses</a></li>
+            <li><a href="cabs_new.html">Cabs</a></li>
+            <li><a href="my-bookings.html">My Bookings</a></li>
+        </ul>
+        
+        <div class="nav-right">
+            <button id="theme-toggle" aria-label="Toggle dark mode" aria-pressed="false">🌙</button>
+                <a href="login_new.html?tab=register" class="btn btn-primary" id="register-btn" style="margin-right: 0.5rem; display:none;">Register</a>
+            <a href="login_new.html" class="profile-btn" id="profile-btn" aria-label="Profile">
+                <span class="visually-hidden">Profile</span>👤
+            </a>
+                <button id="logout-btn" class="btn btn-secondary" style="margin-left: 1rem; display:none;">Logout</button>
+        </div>
+    </nav>
+
+    <main>
+        <section class="hero-section">
+            <h1>Book Your Flight</h1>
+            <p>Find the best deals on flights worldwide</p>
+            
+            <div class="search-box">
+                <form class="search-form">
+                    <div class="form-group">
+                        <label for="from">From</label>
+                        <input type="text" id="from" placeholder="Departure City" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="to">To</label>
+                        <input type="text" id="to" placeholder="Arrival City" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="date">Departure Date</label>
+                        <input type="date" id="date" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="passengers">Passengers</label>
+                        <select id="passengers">
+                            <option>1 Passenger</option>
+                            <option>2 Passengers</option>
+                            <option>3 Passengers</option>
+                            <option>4+ Passengers</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="class">Class</label>
+                        <select id="class">
+                            <option>Economy</option>
+                            <option>Premium Economy</option>
+                            <option>Business</option>
+                            <option>First Class</option>
+                        </select>
+                    </div>
+                    
+                    <button type="submit" class="search-btn">Search Flights</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Search Results Section -->
+        <section id="search-results" class="section" style="display: none;">
+            <div class="results-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                <h2 class="section-title">🔍 Search Results</h2>
+                <button id="clear-results" class="btn btn-secondary">Clear Results</button>
+            </div>
+            <div id="results-content">
+                <!-- Results will be dynamically inserted here by script.js -->
+            </div>
+        </section>
+
+        <section class="section">
+            <h2 class="section-title">Popular Routes</h2>
+            <div class="flights-grid">
+                <div class="flight-card">
+                    <div class="flight-info">
+                        <div class="airline">Air India</div>
+                        <div class="route">
+                            <span>DEL</span>
+                            <span class="route-arrow">→</span>
+                            <span>BOM</span>
+                        </div>
+                        <div class="flight-details">
+                            Departure: 08:00 AM • Duration: 2h 15m • Non-stop
+                        </div>
+                    </div>
+                    <div class="flight-price">
+                        <div class="price">₹4,500</div>
+                        <button class="btn" onclick="bookService('flight', 1, 'Air India - DEL to BOM', 4500)">Book Now</button>
+                    </div>
+                </div>
+
+                <div class="flight-card">
+                    <div class="flight-info">
+                        <div class="airline">IndiGo</div>
+                        <div class="route">
+                            <span>BLR</span>
+                            <span class="route-arrow">→</span>
+                            <span>HYD</span>
+                        </div>
+                        <div class="flight-details">
+                            Departure: 10:30 AM • Duration: 1h 10m • Non-stop
+                        </div>
+                    </div>
+                    <div class="flight-price">
+                        <div class="price">₹3,200</div>
+                        <button class="btn" onclick="bookService('flight', 2, 'IndiGo - BLR to HYD', 3200)">Book Now</button>
+                    </div>
+                </div>
+
+                <div class="flight-card">
+                    <div class="flight-info">
+                        <div class="airline">Vistara</div>
+                        <div class="route">
+                            <span>DEL</span>
+                            <span class="route-arrow">→</span>
+                            <span>GOI</span>
+                        </div>
+                        <div class="flight-details">
+                            Departure: 02:15 PM • Duration: 2h 30m • Non-stop
+                        </div>
+                    </div>
+                    <div class="flight-price">
+                        <div class="price">₹5,800</div>
+                        <button class="btn" onclick="bookService('flight', 3, 'Vistara - DEL to GOI', 5800)">Book Now</button>
+                    </div>
+                </div>
+
+                <div class="flight-card">
+                    <div class="flight-info">
+                        <div class="airline">SpiceJet</div>
+                        <div class="route">
+                            <span>CCU</span>
+                            <span class="route-arrow">→</span>
+                            <span>DEL</span>
+                        </div>
+                        <div class="flight-details">
+                            Departure: 06:45 PM • Duration: 2h 25m • Non-stop
+                        </div>
+                    </div>
+                    <div class="flight-price">
+                        <div class="price">₹4,100</div>
+                        <button class="btn" onclick="bookService('flight', 4, 'SpiceJet - CCU to DEL', 4100)">Book Now</button>
+                    </div>
+                </div>
+
+                <div class="flight-card">
+                    <div class="flight-info">
+                        <div class="airline">Air Asia</div>
+                        <div class="route">
+                            <span>BOM</span>
+                            <span class="route-arrow">→</span>
+                            <span>BLR</span>
+                        </div>
+                        <div class="flight-details">
+                            Departure: 09:20 AM • Duration: 1h 35m • Non-stop
+                        </div>
+                    </div>
+                    <div class="flight-price">
+                        <div class="price">₹3,900</div>
+                        <button class="btn" onclick="bookService('flight', 5, 'Air Asia - BOM to BLR', 3900)">Book Now</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer" role="contentinfo">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Menu</h3>
+                <ul>
+                    <li><a href="index_new.html">Home</a></li>
+                    <li><a href="flights_new.html">Flights</a></li>
+                    <li><a href="hotels_new.html">Hotels</a></li>
+                    <li><a href="holidays_new.html">Holidays</a></li>
+                    <li><a href="trains_new.html">Trains</a></li>
+                    <li><a href="buses_new.html">Buses</a></li>
+                    <li><a href="cabs_new.html">Cabs</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <p>info@uniquetrip.com</p>
+                <p>+91 98765 43210</p>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Stay Connected</h3>
+                <ul>
+                    <li><a href="#">Facebook</a></li>
+                    <li><a href="#">Instagram</a></li>
+                    <li><a href="#">Twitter</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2025 UniqueTrip. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- External JavaScript -->
+    <script defer src="flights.js"></script>
+    <script defer src="script.js"></script>
+</body>
+</html>

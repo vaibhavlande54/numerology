@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Test Dashboard - MakeMy Trip Clone</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 2rem;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        h1 {
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+        
+        .subtitle {
+            color: #666;
+            margin-bottom: 2rem;
+        }
+        
+        .endpoint-section {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background: #f8f9fa;
+            border-radius: 12px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .endpoint-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+        
+        .method {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            margin-right: 0.5rem;
+        }
+        
+        .get { background: #28a745; color: white; }
+        .post { background: #007bff; color: white; }
+        .delete { background: #dc3545; color: white; }
+        
+        .endpoint-url {
+            font-family: 'Courier New', monospace;
+            background: #fff;
+            padding: 0.75rem;
+            border-radius: 6px;
+            margin: 0.5rem 0;
+            border: 1px solid #ddd;
+        }
+        
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-top: 0.5rem;
+            transition: all 0.3s;
+        }
+        
+        button:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+        
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        
+        .response {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: #1e1e1e;
+            color: #d4d4d4;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            max-height: 400px;
+            display: none;
+        }
+        
+        .response.show {
+            display: block;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-left: 0.5rem;
+        }
+        
+        .status-success { background: #d4edda; color: #155724; }
+        .status-error { background: #f8d7da; color: #721c24; }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            margin: 0.5rem 0;
+        }
+        
+        input:focus, select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .form-group {
+            margin: 1rem 0;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 MakeMy Trip Clone - API Test Dashboard</h1>
+        <p class="subtitle">Test all backend API endpoints from this dashboard</p>
+        
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-value">30</div>
+                <div class="stat-label">Flight Routes</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">8</div>
+                <div class="stat-label">Cities</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">11</div>
+                <div class="stat-label">API Endpoints</div>
+            </div>
+        </div>
+        
+        <!-- Health Check -->
+        <div class="endpoint-section">
+            <div class="endpoint-title">
+                <span class="method get">GET</span> Health Check
+            </div>
+            <div class="endpoint-url">http://localhost:3000/api/health</div>
+            <button onclick="testHealth()">Test Health Check</button>
+            <div id="health-response" class="response"></div>
+        </div>
+        
+        <!-- Search Flights -->
+        <div class="endpoint-section">
+            <div class="endpoint-title">
+                <span class="method get">GET</span> Search Flights
+            </div>
+            <div class="endpoint-url">http://localhost:3000/api/flights/search</div>
+            <div class="form-group">
+                <label>From City:</label>
+                <select id="from-city">
+                    <option value="Mumbai">Mumbai</option>
+                    <option value="Delhi">Delhi</option>
+                    <option value="Bengaluru">Bengaluru</option>
+                    <option value="Goa">Goa</option>
+                    <option value="Chennai">Chennai</option>
+                    <option value="Kolkata">Kolkata</option>
+                    <option value="Hyderabad">Hyderabad</option>
+                    <option value="Jaipur">Jaipur</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>To City:</label>
+                <select id="to-city">
+                    <option value="Goa">Goa</option>
+                    <option value="Delhi">Delhi</option>
+                    <option value="Mumbai">Mumbai</option>
+                    <option value="Bengaluru">Bengaluru</option>
+                    <option value="Chennai">Chennai</option>
+                    <option value="Kolkata">Kolkata</option>
+                    <option value="Hyderabad">Hyderabad</option>
+                    <option value="Jaipur">Jaipur</option>
+                </select>
+            </div>
+            <button onclick="testSearchFlights()">Search Flights</button>
+            <div id="search-response" class="response"></div>
+        </div>
+        
+        <!-- Get All Flights -->
+        <div class="endpoint-section">
+            <div class="endpoint-title">
+                <span class="method get">GET</span> Get All Flights
+            </div>
+            <div class="endpoint-url">http://localhost:3000/api/flights</div>
+            <button onclick="testGetAllFlights()">Get All Flights</button>
+            <div id="flights-response" class="response"></div>
+        </div>
+        
+        <!-- Create Booking -->
+        <div class="endpoint-section">
+            <div class="endpoint-title">
+                <span class="method post">POST</span> Create Booking
+            </div>
+            <div class="endpoint-url">http://localhost:3000/api/bookings</div>
+            <div class="form-group">
+                <label>Flight ID:</label>
+                <input type="number" id="booking-flight-id" value="3" placeholder="Enter Flight ID">
+            </div>
+            <div class="form-group">
+                <label>Passenger Name:</label>
+                <input type="text" id="booking-name" value="John Doe" placeholder="Enter Name">
+            </div>
+            <div class="form-group">
+                <label>Email:</label>
+                <input type="email" id="booking-email" value="john@example.com" placeholder="Enter Email">
+            </div>
+            <button onclick="testCreateBooking()">Create Booking</button>
+            <div id="booking-response" class="response"></div>
+        </div>
+        
+        <!-- Newsletter -->
+        <div class="endpoint-section">
+            <div class="endpoint-title">
+                <span class="method post">POST</span> Newsletter Subscription
+            </div>
+            <div class="endpoint-url">http://localhost:3000/api/newsletter</div>
+            <div class="form-group">
+                <label>Email:</label>
+                <input type="email" id="newsletter-email" value="test@example.com" placeholder="Enter Email">
+            </div>
+            <button onclick="testNewsletter()">Subscribe</button>
+            <div id="newsletter-response" class="response"></div>
+        </div>
+        
+        <!-- User Signup -->
+        <div class="endpoint-section">
+            <div class="endpoint-title">
+                <span class="method post">POST</span> User Signup
+            </div>
+            <div class="endpoint-url">http://localhost:3000/api/auth/signup</div>
+            <div class="form-group">
+                <label>Name:</label>
+                <input type="text" id="signup-name" value="Test User" placeholder="Enter Name">
+            </div>
+            <div class="form-group">
+                <label>Email:</label>
+                <input type="email" id="signup-email" placeholder="Enter Email">
+            </div>
+            <div class="form-group">
+                <label>Password:</label>
+                <input type="password" id="signup-password" value="password123" placeholder="Enter Password">
+            </div>
+            <button onclick="testSignup()">Sign Up</button>
+            <div id="signup-response" class="response"></div>
+        </div>
+    </div>
+    
+    <script>
+        function displayResponse(elementId, data, status) {
+            const element = document.getElementById(elementId);
+            element.innerHTML = JSON.stringify(data, null, 2);
+            element.classList.add('show');
+        }
+        
+        async function testHealth() {
+            try {
+                const response = await fetch('http://localhost:3000/api/health');
+                const data = await response.json();
+                displayResponse('health-response', data, response.status);
+            } catch (error) {
+                displayResponse('health-response', { error: error.message }, 500);
+            }
+        }
+        
+        async function testSearchFlights() {
+            const from = document.getElementById('from-city').value;
+            const to = document.getElementById('to-city').value;
+            try {
+                const response = await fetch(`http://localhost:3000/api/flights/search?from=${from}&to=${to}&date=2025-10-20`);
+                const data = await response.json();
+                displayResponse('search-response', data, response.status);
+            } catch (error) {
+                displayResponse('search-response', { error: error.message }, 500);
+            }
+        }
+        
+        async function testGetAllFlights() {
+            try {
+                const response = await fetch('http://localhost:3000/api/flights');
+                const data = await response.json();
+                displayResponse('flights-response', data, response.status);
+            } catch (error) {
+                displayResponse('flights-response', { error: error.message }, 500);
+            }
+        }
+        
+        async function testCreateBooking() {
+            const flightId = document.getElementById('booking-flight-id').value;
+            const name = document.getElementById('booking-name').value;
+            const email = document.getElementById('booking-email').value;
+            
+            try {
+                const response = await fetch('http://localhost:3000/api/bookings', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        flightId: parseInt(flightId),
+                        passengerName: name,
+                        passengerEmail: email,
+                        numPassengers: 1
+                    })
+                });
+                const data = await response.json();
+                displayResponse('booking-response', data, response.status);
+            } catch (error) {
+                displayResponse('booking-response', { error: error.message }, 500);
+            }
+        }
+        
+        async function testNewsletter() {
+            const email = document.getElementById('newsletter-email').value;
+            try {
+                const response = await fetch('http://localhost:3000/api/newsletter', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email })
+                });
+                const data = await response.json();
+                displayResponse('newsletter-response', data, response.status);
+            } catch (error) {
+                displayResponse('newsletter-response', { error: error.message }, 500);
+            }
+        }
+        
+        async function testSignup() {
+            const name = document.getElementById('signup-name').value;
+            const email = document.getElementById('signup-email').value;
+            const password = document.getElementById('signup-password').value;
+            
+            try {
+                const response = await fetch('http://localhost:3000/api/auth/signup', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, email, password })
+                });
+                const data = await response.json();
+                displayResponse('signup-response', data, response.status);
+            } catch (error) {
+                displayResponse('signup-response', { error: error.message }, 500);
+            }
+        }
+    </script>
+</body>
+</html>

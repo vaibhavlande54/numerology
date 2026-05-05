@@ -1,0 +1,12 @@
+{
+  "name": "uml-diagrams",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Mermaid CLI renderer for UML diagrams",
+  "scripts": {
+    "render": "node -e \"require('fs').mkdirSync('out',{recursive:true})\" && mmdc -i architecture.mmd -o out/architecture.png && mmdc -i data-model.mmd -o out/data-model.png && mmdc -i auth-sequence.mmd -o out/auth-sequence.png && mmdc -i booking-flight-sequence.mmd -o out/booking-flight-sequence.png && mmdc -i booking-generic-sequence.mmd -o out/booking-generic-sequence.png && mmdc -i security.mmd -o out/security.png && mmdc -i simple-architecture.mmd -o out/simple-architecture.png && mmdc -i simple-data.mmd -o out/simple-data.png && mmdc -i simple-booking-sequence.mmd -o out/simple-booking-sequence.png"
+  },
+  "devDependencies": {
+    "@mermaid-js/mermaid-cli": "^10.9.1"
+  }
+}

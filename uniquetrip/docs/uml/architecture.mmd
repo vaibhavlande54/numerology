@@ -1,0 +1,17 @@
+graph LR
+  subgraph Client [Web Client]
+    UI[HTML/CSS Pages<br/>index_new.html<br/>flights_new.html<br/>booking.html<br/>my-bookings.html]
+    JS[script.js<br/>booking.js<br/>my-bookings.js]
+  end
+
+  subgraph Server [Node.js/Express Backend]
+    API[REST APIs<br/>/auth/*<br/>/flights/*<br/>/bookings/*<br/>/health]
+    Auth[Auth & Security<br/>JWT, bcrypt, rate-limit]
+  end
+
+  DB[(MySQL Database)]
+
+  UI --> JS
+  JS <-->|fetch| API
+  API --> Auth
+  API <-->|SQL| DB

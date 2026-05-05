@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Login or register to UniqueTrip - Book flights, hotels, trains, buses, cabs and holiday packages with ease. Secure authentication and personalized travel experience." />
+  <title>Login / Register | UniqueTrip</title>
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="login.css" />
+</head>
+<body>
+    <nav class="navbar" role="navigation" aria-label="Main Navigation">
+        <a href="index_new.html" class="logo">UniqueTrip</a>
+        <button class="nav-toggle" aria-label="Open navigation" aria-controls="nav-links" aria-expanded="false" tabindex="0">☰</button>
+        <ul class="nav-links" id="nav-links">
+            <li><a href="index_new.html">Home</a></li>
+            <li><a href="flights_new.html">Flights</a></li>
+            <li><a href="hotels_new.html">Hotels</a></li>
+            <li><a href="holidays_new.html">Holidays</a></li>
+            <li><a href="trains_new.html">Trains</a></li>
+            <li><a href="buses_new.html">Buses</a></li>
+            <li><a href="cabs_new.html">Cabs</a></li>
+        </ul>
+        <div class="nav-right">
+            <button id="theme-toggle" aria-label="Toggle dark mode" aria-pressed="false">
+                🌙
+            </button>
+            <a href="login_new.html" class="profile-btn" id="profile-btn" aria-label="Profile">
+                <span class="visually-hidden">Profile</span>
+                👤
+            </a>
+            <button id="logout-btn" class="btn btn-secondary" style="margin-left: 1rem; display:none;">Logout</button>
+        </div>
+    </nav>
+
+  <div class="auth-container">
+    <div class="toggle-tabs login" id="toggleTabs">
+      <div class="toggle-slider"></div>
+      <button id="loginTab" class="active" type="button">Login</button>
+      <button id="registerTab" type="button">Register</button>
+    </div>
+
+    <form id="loginForm" autocomplete="on">
+      <div class="input-group">
+        <label for="loginEmail">Email</label>
+        <input type="email" id="loginEmail" required autocomplete="email" />
+        <div class="field-error" id="loginEmailError" aria-live="polite"></div>
+      </div>
+      <div class="input-group">
+        <label for="loginPassword">Password</label>
+        <input type="password" id="loginPassword" required autocomplete="current-password" />
+        <div class="field-error" id="loginPasswordError" aria-live="polite"></div>
+      </div>
+      <button class="submit-btn" type="submit">Login</button>
+      <div class="form-footer">Don't have an account? <a href="#" id="toRegister">Register</a></div>
+    </form>
+
+    <form id="registerForm" style="display: none" autocomplete="on">
+      <div class="input-group">
+        <label for="registerName">Full Name</label>
+        <input type="text" id="registerName" required autocomplete="name" />
+        <div class="field-error" id="registerNameError" aria-live="polite"></div>
+      </div>
+      <div class="input-group">
+        <label for="registerEmail">Email</label>
+        <input type="email" id="registerEmail" required autocomplete="email" />
+        <div class="field-error" id="registerEmailError" aria-live="polite"></div>
+      </div>
+      <div class="input-group">
+        <label for="registerPassword">Password</label>
+        <input type="password" id="registerPassword" required autocomplete="new-password" />
+        <div class="password-strength" id="passwordStrength" aria-live="polite">
+          <div class="strength-bar"><span id="passwordStrengthBar"></span></div>
+          <div class="strength-text" id="passwordStrengthText">Password strength</div>
+        </div>
+        <div class="field-error" id="registerPasswordError" aria-live="polite"></div>
+      </div>
+      <div class="input-group">
+        <label for="registerConfirm">Confirm Password</label>
+        <input type="password" id="registerConfirm" required autocomplete="new-password" />
+        <div class="field-error" id="registerConfirmError" aria-live="polite"></div>
+      </div>
+      <button class="submit-btn" type="submit">Register</button>
+      <div class="form-footer">Already have an account? <a href="#" id="toLogin">Login</a></div>
+    </form>
+  </div>
+
+  <script defer src="login.js"></script>
+</body>
+</html>

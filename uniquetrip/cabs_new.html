@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light dark">
+    <title>Cabs | UniqueTrip</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="cabs.css">
+</head>
+<body>
+    <nav class="navbar" role="navigation" aria-label="Main Navigation">
+        <a href="index_new.html" class="logo">UniqueTrip</a>
+        <button class="nav-toggle" aria-label="Open navigation" aria-controls="nav-links" aria-expanded="false" tabindex="0">☰</button>
+        <ul class="nav-links" id="nav-links">
+            <li><a href="index_new.html">Home</a></li>
+            <li><a href="flights_new.html">Flights</a></li>
+            <li><a href="hotels_new.html">Hotels</a></li>
+            <li><a href="holidays_new.html">Holidays</a></li>
+            <li><a href="trains_new.html">Trains</a></li>
+            <li><a href="buses_new.html">Buses</a></li>
+            <li><a href="cabs_new.html">Cabs</a></li>
+        </ul>
+        
+        <div class="nav-right">
+            <button id="theme-toggle" aria-label="Toggle dark mode" aria-pressed="false">🌙</button>
+                <a href="login_new.html?tab=register" class="btn btn-primary" id="register-btn" style="margin-right: 0.5rem; display:none;">Register</a>
+            <a href="login_new.html" class="profile-btn" id="profile-btn" aria-label="Profile">
+                <span class="visually-hidden">Profile</span>👤
+            </a>
+                <button id="logout-btn" class="btn btn-secondary" style="margin-left: 1rem; display:none;">Logout</button>
+        </div>
+    </nav>
+
+    <main>
+        <section class="hero-section">
+            <h1>Book a Cab</h1>
+            <p>Reliable and comfortable cab services</p>
+            
+            <div class="search-box">
+                <form class="search-form cabs-search-form">
+                    <div class="form-group">
+                        <label for="from">From</label>
+                        <input type="text" id="from" class="from" placeholder="Pickup Location" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="to">To</label>
+                        <input type="text" id="to" class="to" placeholder="Drop Location" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="departure">Pickup Date</label>
+                        <input type="date" id="departure" class="date" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="return">Return</label>
+                        <input type="date" id="return">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="passengers">Passengers</label>
+                        <select id="passengers">
+                            <option>1 Passenger</option>
+                            <option>2 Passengers</option>
+                            <option>3 Passengers</option>
+                            <option>4+ Passengers</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="class">Class</label>
+                        <select id="class">
+                            <option>Economy</option>
+                            <option>Premium Economy</option>
+                            <option>Business</option>
+                            <option>First Class</option>
+                        </select>
+                    </div>
+                    
+                    <button type="submit" class="search-btn">Search Cabs</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Search Results Section (Hidden by default) -->
+        <section id="cabs-results" class="section" style="display: none;">
+            <div class="section-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                <h2 class="section-title">Search Results</h2>
+                <button id="clear-cabs-results" class="btn btn-secondary">Clear Results</button>
+            </div>
+            <div id="cabs-results-content"></div>
+        </section>
+
+        <section class="section">
+            <h2 class="section-title">Featured Cabs</h2>
+            <div class="flights-grid">
+                <div class="flight-card">
+                    <div class="flight-info">
+                        <div class="airline">Airport Pickup - Sedan</div>
+                        <div class="route">
+                            <span>DEL Airport</span>
+                            <span class="route-arrow">→</span>
+                            <span>Connaught Place</span>
+                        </div>
+                        <div class="flight-details">
+                            Distance: 20 km • Duration: 1 hour • AC Sedan
+                        </div>
+                    </div>
+                    <div class="flight-price">
+                        <div class="price">₹850</div>
+                        <button class="btn" onclick="bookService('cab', 1, 'Airport Sedan - DEL to Connaught Place', 850)">Book Now</button>
+                    </div>
+                </div>
+
+                <div class="flight-card">
+                    <div class="flight-info">
+                        <div class="airline">City Transfer - SUV</div>
+                        <div class="route">
+                            <span>BOM Airport</span>
+                            <span class="route-arrow">→</span>
+                            <span>Gateway of India</span>
+                        </div>
+                        <div class="flight-details">
+                            Distance: 25 km • Duration: 45 mins • 6-Seater SUV
+                        </div>
+                    </div>
+                    <div class="flight-price">
+                        <div class="price">₹1,200</div>
+                        <button class="btn" onclick="bookService('cab', 2, 'SUV Transfer - BOM Airport to Gateway', 1200)">Book Now</button>
+                    </div>
+                </div>
+
+                <div class="flight-card">
+                    <div class="flight-info">
+                        <div class="airline">Outstation - Sedan</div>
+                        <div class="route">
+                            <span>Bangalore</span>
+                            <span class="route-arrow">→</span>
+                            <span>Mysore</span>
+                        </div>
+                        <div class="flight-details">
+                            Distance: 150 km • Duration: 3 hours • Round Trip
+                        </div>
+                    </div>
+                    <div class="flight-price">
+                        <div class="price">₹3,500</div>
+                        <button class="btn" onclick="bookService('cab', 3, 'Outstation Sedan - BLR to Mysore', 3500)">Book Now</button>
+                    </div>
+                </div>
+
+                <div class="flight-card">
+                    <div class="flight-info">
+                        <div class="airline">Hourly Rental - Hatchback</div>
+                        <div class="route">
+                            <span>Within Chennai</span>
+                            <span class="route-arrow">→</span>
+                            <span>8 Hours</span>
+                        </div>
+                        <div class="flight-details">
+                            8 Hours • 80 km included • AC Hatchback
+                        </div>
+                    </div>
+                    <div class="flight-price">
+                        <div class="price">₹1,800</div>
+                        <button class="btn" onclick="bookService('cab', 4, 'Hourly Rental - Chennai 8hrs', 1800)">Book Now</button>
+                    </div>
+                </div>
+
+                <div class="flight-card">
+                    <div class="flight-info">
+                        <div class="airline">Luxury - Mercedes</div>
+                        <div class="route">
+                            <span>Jaipur Airport</span>
+                            <span class="route-arrow">→</span>
+                            <span>City Hotels</span>
+                        </div>
+                        <div class="flight-details">
+                            Distance: 15 km • Duration: 30 mins • Luxury Car
+                        </div>
+                    </div>
+                    <div class="flight-price">
+                        <div class="price">₹2,500</div>
+                        <button class="btn" onclick="bookService('cab', 5, 'Luxury Mercedes - Jaipur Airport', 2500)">Book Now</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer" role="contentinfo">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Menu</h3>
+                <ul>
+                    <li><a href="index_new.html">Home</a></li>
+                    <li><a href="flights_new.html">Flights</a></li>
+                    <li><a href="hotels_new.html">Hotels</a></li>
+                    <li><a href="holidays_new.html">Holidays</a></li>
+                    <li><a href="trains_new.html">Trains</a></li>
+                    <li><a href="buses_new.html">Buses</a></li>
+                    <li><a href="cabs_new.html">Cabs</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <p>info@uniquetrip.com</p>
+                <p>+91 98765 43210</p>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Stay Connected</h3>
+                <ul>
+                    <li><a href="#">Facebook</a></li>
+                    <li><a href="#">Instagram</a></li>
+                    <li><a href="#">Twitter</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2025 UniqueTrip. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script defer src="script.js"></script>
+</body>
+</html>

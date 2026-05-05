@@ -1,0 +1,101 @@
+classDiagram
+  class users {
+    +int id
+    +varchar name
+    +varchar email
+    +varchar password
+    +timestamp created_at
+  }
+
+  class flights {
+    +int id
+    +varchar from_city
+    +varchar to_city
+    +varchar airline
+    +varchar flight_no
+    +varchar departure
+    +varchar arrival
+    +varchar duration
+    +int price
+    +varchar stops
+    +date travel_date
+  }
+
+  class bookings {
+    +int id
+    +varchar booking_reference
+    +int flight_id
+    +varchar service_type
+    +int service_id
+    +varchar service_name
+    +varchar passenger_name
+    +varchar passenger_email
+    +varchar passenger_phone
+    +int num_passengers
+    +int total_price
+    +varchar status
+    +timestamp booked_at
+  }
+
+  class hotels {
+    +int id
+    +varchar name
+    +varchar city
+    +int rating
+    +int price_per_night
+    +text amenities
+    +varchar image_url
+    +date available_from
+  }
+
+  class trains {
+    +int id
+    +varchar from_city
+    +varchar to_city
+    +varchar train_name
+    +varchar train_no
+    +varchar departure
+    +varchar arrival
+    +varchar duration
+    +int price
+    +varchar class
+    +date travel_date
+  }
+
+  class buses {
+    +int id
+    +varchar from_city
+    +varchar to_city
+    +varchar bus_operator
+    +varchar bus_type
+    +varchar departure
+    +varchar arrival
+    +varchar duration
+    +int price
+    +int seats_available
+    +date travel_date
+  }
+
+  class cabs {
+    +int id
+    +varchar from_location
+    +varchar to_location
+    +varchar cab_type
+    +int price
+    +varchar duration
+    +varchar distance
+    +date available_date
+  }
+
+  class holidays {
+    +int id
+    +varchar package_name
+    +varchar from_city
+    +varchar destination
+    +int duration_days
+    +int price
+    +text inclusions
+    +date departure_date
+  }
+
+  bookings --> flights : optional (flight_id)

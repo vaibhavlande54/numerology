@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light dark">
+    <title>Trains | UniqueTrip</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="trains.css">
+</head>
+<body>
+    <nav class="navbar" role="navigation" aria-label="Main Navigation">
+        <a href="index_new.html" class="logo">UniqueTrip</a>
+        <button class="nav-toggle" aria-label="Open navigation" aria-controls="nav-links" aria-expanded="false" tabindex="0">☰</button>
+        <ul class="nav-links" id="nav-links">
+            <li><a href="index_new.html">Home</a></li>
+            <li><a href="flights_new.html">Flights</a></li>
+            <li><a href="hotels_new.html">Hotels</a></li>
+            <li><a href="holidays_new.html">Holidays</a></li>
+            <li><a href="trains_new.html">Trains</a></li>
+            <li><a href="buses_new.html">Buses</a></li>
+            <li><a href="cabs_new.html">Cabs</a></li>
+            <li><a href="my-bookings.html">My Bookings</a></li>
+        </ul>
+        
+        <div class="nav-right">
+            <button id="theme-toggle" aria-label="Toggle dark mode" aria-pressed="false">🌙</button>
+                <a href="login_new.html?tab=register" class="btn btn-primary" id="register-btn" style="margin-right: 0.5rem; display:none;">Register</a>
+            <a href="login_new.html" class="profile-btn" id="profile-btn" aria-label="Profile">
+                <span class="visually-hidden">Profile</span>👤
+            </a>
+                <button id="logout-btn" class="btn btn-secondary" style="margin-left: 1rem; display:none;">Logout</button>
+        </div>
+    </nav>
+
+    <main>
+        <section class="hero-section">
+            <h1>Book Train Tickets</h1>
+            <p>Travel comfortably across India by rail</p>
+            
+            <div class="search-box">
+                <form class="search-form trains-search-form">
+                    <div class="form-group">
+                        <label for="from">From</label>
+                        <input type="text" id="from" class="from" placeholder="Departure City" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="to">To</label>
+                        <input type="text" id="to" class="to" placeholder="Arrival City" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="departure">Departure</label>
+                        <input type="date" id="departure" class="date" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="return">Return</label>
+                        <input type="date" id="return">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="passengers">Passengers</label>
+                        <select id="passengers">
+                            <option>1 Passenger</option>
+                            <option>2 Passengers</option>
+                            <option>3 Passengers</option>
+                            <option>4+ Passengers</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="class">Class</label>
+                        <select id="class">
+                            <option>Economy</option>
+                            <option>Premium Economy</option>
+                            <option>Business</option>
+                            <option>First Class</option>
+                        </select>
+                    </div>
+                    
+                    <button type="submit" class="search-btn">Search Trains</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Search Results Section (Hidden by default) -->
+        <section id="trains-results" class="section" style="display: none;">
+            <div class="section-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                <h2 class="section-title">Search Results</h2>
+                <button id="clear-trains-results" class="btn btn-secondary">Clear Results</button>
+            </div>
+            <div id="trains-results-content"></div>
+        </section>
+
+        <section class="section">
+            <h2 class="section-title">Featured Trains</h2>
+            <div class="flights-grid">
+                <div class="flight-card">
+                    <div class="flight-info">
+                        <div class="airline">Rajdhani Express - 12951</div>
+                        <div class="route">
+                            <span>MUM</span>
+                            <span class="route-arrow">→</span>
+                            <span>DEL</span>
+                        </div>
+                        <div class="flight-details">
+                            Departure: 04:55 PM • Duration: 15h 40m • AC 3-Tier
+                        </div>
+                    </div>
+                    <div class="flight-price">
+                        <div class="price">₹2,500</div>
+                        <button class="btn" onclick="bookService('train', 1, 'Rajdhani Express - MUM to DEL', 2500)">Book Now</button>
+                    </div>
+                </div>
+
+                <div class="flight-card">
+                    <div class="flight-info">
+                        <div class="airline">Shatabdi Express - 12002</div>
+                        <div class="route">
+                            <span>DEL</span>
+                            <span class="route-arrow">→</span>
+                            <span>BOM</span>
+                        </div>
+                        <div class="flight-details">
+                            Departure: 06:25 AM • Duration: 16h 35m • AC Chair Car
+                        </div>
+                    </div>
+                    <div class="flight-price">
+                        <div class="price">₹1,800</div>
+                        <button class="btn" onclick="bookService('train', 2, 'Shatabdi Express - DEL to BOM', 1800)">Book Now</button>
+                    </div>
+                </div>
+
+                <div class="flight-card">
+                    <div class="flight-info">
+                        <div class="airline">Duronto Express - 12259</div>
+                        <div class="route">
+                            <span>HWH</span>
+                            <span class="route-arrow">→</span>
+                            <span>NDLS</span>
+                        </div>
+                        <div class="flight-details">
+                            Departure: 04:50 PM • Duration: 17h 10m • AC 2-Tier
+                        </div>
+                    </div>
+                    <div class="flight-price">
+                        <div class="price">₹2,800</div>
+                        <button class="btn" onclick="bookService('train', 3, 'Duronto Express - HWH to NDLS', 2800)">Book Now</button>
+                    </div>
+                </div>
+
+                <div class="flight-card">
+                    <div class="flight-info">
+                        <div class="airline">Garib Rath - 12909</div>
+                        <div class="route">
+                            <span>MUM</span>
+                            <span class="route-arrow">→</span>
+                            <span>BLR</span>
+                        </div>
+                        <div class="flight-details">
+                            Departure: 11:40 PM • Duration: 14h 25m • AC 3-Tier
+                        </div>
+                    </div>
+                    <div class="flight-price">
+                        <div class="price">₹1,400</div>
+                        <button class="btn" onclick="bookService('train', 4, 'Garib Rath - MUM to BLR', 1400)">Book Now</button>
+                    </div>
+                </div>
+
+                <div class="flight-card">
+                    <div class="flight-info">
+                        <div class="airline">Jan Shatabdi - 12028</div>
+                        <div class="route">
+                            <span>DEL</span>
+                            <span class="route-arrow">→</span>
+                            <span>JAT</span>
+                        </div>
+                        <div class="flight-details">
+                            Departure: 06:45 AM • Duration: 12h 15m • AC Chair Car
+                        </div>
+                    </div>
+                    <div class="flight-price">
+                        <div class="price">₹1,200</div>
+                        <button class="btn" onclick="bookService('train', 5, 'Jan Shatabdi - DEL to JAT', 1200)">Book Now</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer" role="contentinfo">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Menu</h3>
+                <ul>
+                    <li><a href="index_new.html">Home</a></li>
+                    <li><a href="flights_new.html">Flights</a></li>
+                    <li><a href="hotels_new.html">Hotels</a></li>
+                    <li><a href="holidays_new.html">Holidays</a></li>
+                    <li><a href="trains_new.html">Trains</a></li>
+                    <li><a href="buses_new.html">Buses</a></li>
+                    <li><a href="cabs_new.html">Cabs</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <p>info@uniquetrip.com</p>
+                <p>+91 98765 43210</p>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Stay Connected</h3>
+                <ul>
+                    <li><a href="#">Facebook</a></li>
+                    <li><a href="#">Instagram</a></li>
+                    <li><a href="#">Twitter</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2025 UniqueTrip. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script defer src="script.js"></script>
+</body>
+</html>

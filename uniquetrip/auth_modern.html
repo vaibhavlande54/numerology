@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login / Register | UniqueTrip</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #3b82f6;
+      --primary-dark: #2563eb;
+      --teal: #06b6d4;
+      --teal-dark: #0891b2;
+      --bg: #e0f2fe;
+      --bg-dark: #1e293b;
+      --form-bg: #fff;
+      --form-bg-dark: #22304a;
+      --input-bg: #fff;
+      --input-bg-dark: #334155;
+      --input-border: #bae6fd;
+      --input-border-dark: #475569;
+      --text: #1e293b;
+      --text-dark: #f1f5f9;
+      --shadow: 0 8px 32px 0 rgba(31, 41, 55, 0.15);
+      --radius: 1.5rem;
+      --transition: 0.4s cubic-bezier(.4,0,.2,1);
+    }
+    [data-theme="dark"] {
+      --bg: var(--bg-dark);
+      --form-bg: var(--form-bg-dark);
+      --input-bg: var(--input-bg-dark);
+      --input-border: var(--input-border-dark);
+      --text: var(--text-dark);
+    }
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      font-family: 'Montserrat', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      transition: background var(--transition), color var(--transition);
+    }
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%), url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80');
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      position: relative;
+    }
+    body[data-theme="dark"] {
+      background: linear-gradient(135deg, #22304a 0%, #334155 100%);
+    }
+    .dark-toggle {
+      position: absolute;
+      top: 2rem;
+      right: 2rem;
+      background: var(--form-bg);
+      border: none;
+      border-radius: 50%;
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      color: var(--primary);
+      box-shadow: var(--shadow);
+      cursor: pointer;
+      transition: background var(--transition), color var(--transition);
+      z-index: 10;
+    }
+    .auth-container {
+      background: var(--form-bg);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      width: 100%;
+      max-width: 400px;
+      padding: 2.5rem 2rem 2rem 2rem;
+      position: relative;
+      overflow: hidden;
+      transition: background var(--transition);
+      margin: 2rem 1rem;
+    }
+    .toggle-tabs {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 2rem;
+      background: #f0f9ff;
+      border-radius: 2rem;
+      overflow: hidden;
+      position: relative;
+    }
+    .toggle-tabs button {
+      flex: 1;
+      padding: 0.75rem 0;
+      background: none;
+      border: none;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--primary);
+      cursor: pointer;
+      z-index: 1;
+      transition: color var(--transition);
+    }
+    .toggle-slider {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 50%;
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary) 60%, var(--teal) 100%);
+      border-radius: 2rem;
+      transition: left var(--transition);
+      z-index: 0;
+    }
+    .toggle-tabs.login .toggle-slider {
+      left: 0;
+    }
+    .toggle-tabs.register .toggle-slider {
+      left: 50%;
+    }
+    .toggle-tabs button.active {
+      color: #fff;
+      position: relative;
+      z-index: 2;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+      animation: fadeIn var(--transition);
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: none; }
+    }
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+    label {
+      font-size: 0.98rem;
+      font-weight: 500;
+      color: var(--primary);
+      margin-bottom: 0.1rem;
+    }
+    input[type="text"],
+    input[type="email"],
+    input[type="password"] {
+      padding: 0.8rem 1rem;
+      border: 1.5px solid var(--input-border);
+      border-radius: 0.8rem;
+      background: var(--input-bg);
+      color: var(--text);
+      font-size: 1rem;
+      outline: none;
+      transition: border-color var(--transition), background var(--transition);
+    }
+    input:focus {
+      border-color: var(--primary);
+      background: #f0f9ff;
+    }
+    .submit-btn {
+      background: linear-gradient(90deg, var(--primary) 60%, var(--teal) 100%);
+      color: #fff;
+      border: none;
+      border-radius: 0.8rem;
+      padding: 0.9rem 0;
+      font-size: 1.1rem;
+      font-weight: 600;
+      box-shadow: 0 2px 12px 0 rgba(59, 130, 246, 0.15);
+      cursor: pointer;
+      margin-top: 0.5rem;
+      transition: box-shadow var(--transition), background var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+    .submit-btn:hover {
+      box-shadow: 0 4px 24px 0 rgba(6, 182, 212, 0.25), 0 2px 12px 0 rgba(59, 130, 246, 0.18);
+      filter: brightness(1.08);
+    }
+    .social-login {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1.2rem;
+      justify-content: center;
+    }
+    .social-btn {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.7rem 0;
+      border: none;
+      border-radius: 0.7rem;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #fff;
+      cursor: pointer;
+      background: #3b82f6;
+      transition: box-shadow var(--transition), background var(--transition);
+      box-shadow: 0 2px 8px 0 rgba(59, 130, 246, 0.10);
+    }
+    .social-btn.facebook { background: #1877f3; }
+    .social-btn.instagram { background: linear-gradient(90deg,#fd5,#f25,#c13584,#833ab4); }
+    .social-btn.github { background: #22223b; }
+    .social-btn:hover {
+      box-shadow: 0 4px 16px 0 rgba(59, 130, 246, 0.18);
+      filter: brightness(1.08);
+    }
+    .form-footer {
+      text-align: center;
+      margin-top: 1rem;
+      color: var(--primary);
+      font-size: 0.98rem;
+    }
+    .form-footer a {
+      color: var(--teal);
+      text-decoration: none;
+      font-weight: 600;
+      transition: color var(--transition);
+    }
+    .form-footer a:hover {
+      color: var(--primary);
+    }
+    @media (max-width: 600px) {
+      .auth-container {
+        padding: 1.2rem 0.5rem 1.5rem 0.5rem;
+        max-width: 98vw;
+      }
+      .dark-toggle {
+        top: 1rem;
+        right: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <button class="dark-toggle" id="darkToggle" aria-label="Toggle dark mode">🌙</button>
+  <div class="auth-container">
+    <div class="toggle-tabs login" id="toggleTabs">
+      <div class="toggle-slider"></div>
+      <button id="loginTab" class="active" type="button">Login</button>
+      <button id="registerTab" type="button">Register</button>
+    </div>
+    <form id="loginForm" autocomplete="on">
+      <div class="input-group">
+        <label for="loginEmail">Email</label>
+        <input type="email" id="loginEmail" required autocomplete="email">
+      </div>
+      <div class="input-group">
+        <label for="loginPassword">Password</label>
+        <input type="password" id="loginPassword" required autocomplete="current-password">
+      </div>
+      <button class="submit-btn" type="submit">Login</button>
+      <div class="form-footer">Don't have an account? <a href="#" id="toRegister">Register</a></div>
+    </form>
+    <form id="registerForm" style="display:none" autocomplete="on">
+      <div class="input-group">
+        <label for="registerName">Full Name</label>
+        <input type="text" id="registerName" required autocomplete="name">
+      </div>
+      <div class="input-group">
+        <label for="registerEmail">Email</label>
+        <input type="email" id="registerEmail" required autocomplete="email">
+      </div>
+      <div class="input-group">
+        <label for="registerPassword">Password</label>
+        <input type="password" id="registerPassword" required autocomplete="new-password">
+      </div>
+      <div class="input-group">
+        <label for="registerConfirm">Confirm Password</label>
+        <input type="password" id="registerConfirm" required autocomplete="new-password">
+      </div>
+      <button class="submit-btn" type="submit">Register</button>
+      <div class="form-footer">Already have an account? <a href="#" id="toLogin">Login</a></div>
+    </form>
+  </div>
+  <script>
+    // Theme toggle
+    const darkToggle = document.getElementById('darkToggle');
+    const html = document.documentElement;
+    function setTheme(theme) {
+      html.setAttribute('data-theme', theme);
+      document.body.setAttribute('data-theme', theme);
+      localStorage.setItem('theme', theme);
+      darkToggle.textContent = theme === 'dark' ? '☀️' : '🌙';
+      darkToggle.setAttribute('aria-label', theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
+    }
+    const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    setTheme(savedTheme);
+    darkToggle.addEventListener('click', () => {
+      setTheme(html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+    });
+
+    // Form toggle logic
+    const loginTab = document.getElementById('loginTab');
+    const registerTab = document.getElementById('registerTab');
+    const toggleTabs = document.getElementById('toggleTabs');
+    const loginForm = document.getElementById('loginForm');
+    const registerForm = document.getElementById('registerForm');
+    const toRegister = document.getElementById('toRegister');
+    const toLogin = document.getElementById('toLogin');
+
+    function showLogin() {
+      toggleTabs.classList.add('login');
+      toggleTabs.classList.remove('register');
+      loginTab.classList.add('active');
+      registerTab.classList.remove('active');
+      loginForm.style.display = '';
+      registerForm.style.display = 'none';
+    }
+    function showRegister() {
+      toggleTabs.classList.add('register');
+      toggleTabs.classList.remove('login');
+      loginTab.classList.remove('active');
+      registerTab.classList.add('active');
+      loginForm.style.display = 'none';
+      registerForm.style.display = '';
+    }
+    loginTab.addEventListener('click', showLogin);
+    registerTab.addEventListener('click', showRegister);
+    toRegister.addEventListener('click', (e) => { e.preventDefault(); showRegister(); });
+    toLogin.addEventListener('click', (e) => { e.preventDefault(); showLogin(); });
+
+    // Simple validation for register
+    registerForm.addEventListener('submit', function(e) {
+      if (registerForm.registerPassword.value !== registerForm.registerConfirm.value) {
+        e.preventDefault();
+        registerForm.registerConfirm.setCustomValidity('Passwords do not match');
+        registerForm.registerConfirm.reportValidity();
+      } else {
+        registerForm.registerConfirm.setCustomValidity('');
+      }
+    });
+    // Remove custom validity on input
+    registerForm.registerConfirm.addEventListener('input', function() {
+      registerForm.registerConfirm.setCustomValidity('');
+    });
+  </script>
+</body>
+</html>

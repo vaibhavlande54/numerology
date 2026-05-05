@@ -1,0 +1,22 @@
+sequenceDiagram
+  autonumber
+  participant U as User
+  participant JS as script.js
+  participant BK as booking.js
+  participant API as Express /api
+  participant DB as MySQL
+
+  U->>JS: Click Book (flight)
+  JS->>U: Redirect booking.html?flightId=...
+  U->>BK: Page load (booking.html)
+  BK->>API: GET /api/flights/:id
+  API->>DB: SELECT flight
+  DB-->>API: flight data
+  API-->>BK: 200 flight JSON
+  BK->>U: Show flight summary
+  U->>BK: Enter passenger + pay
+  BK->>API: POST /api/bookings { flightId, ... }
+  API->>DB: INSERT bookings
+  DB-->>API: OK (id, ref)
+  API-->>BK: 200 { booking }
+  BK->>U: Confirmation (booking ref)

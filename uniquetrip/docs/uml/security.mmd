@@ -1,0 +1,10 @@
+graph TB
+  subgraph Security
+    JWT[JWT Tokens<br/>2h expiry]
+    BCRYPT[bcrypt<br/>10 salt rounds]
+    RL[express-rate-limit<br/>100/15m general<br/>5/15m auth]
+  end
+
+  API[Express API] --> JWT
+  API --> BCRYPT
+  API --> RL

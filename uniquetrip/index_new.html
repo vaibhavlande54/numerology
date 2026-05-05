@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light dark">
+    <meta name="description" content="Book flights, hotels, trains, buses, and holiday packages at the best prices. Your trusted travel partner for amazing journeys.">
+    <meta name="keywords" content="flights, hotels, trains, buses, cabs, holidays, travel, booking">
+    <title>UniqueTrip | Explore the World - Book Flights, Hotels & More</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <link rel="alternate icon" href="assets/favicon.svg">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+   
+</head>
+<body>
+    <a href="#main" class="skip-link">Skip to main content</a>
+    <!-- Navbar -->
+    <nav class="navbar" role="navigation" aria-label="Main Navigation">
+        <a href="index_new.html" class="logo">UniqueTrip</a>
+        <button class="nav-toggle" aria-label="Open navigation" aria-controls="nav-links" aria-expanded="false" tabindex="0">☰</button>
+        <ul class="nav-links" id="nav-links">
+            <li><a href="index_new.html">Home</a></li>
+            <li><a href="flights_new.html">Flights</a></li>
+            <li><a href="hotels_new.html">Hotels</a></li>
+            <li><a href="holidays_new.html">Holidays</a></li>
+            <li><a href="trains_new.html">Trains</a></li>
+            <li><a href="buses_new.html">Buses</a></li>
+            <li><a href="cabs_new.html">Cabs</a></li>
+            <li><a href="my-bookings.html">My Bookings</a></li>
+        </ul>
+        <div class="nav-right">
+            <button id="theme-toggle" aria-label="Toggle dark mode" aria-pressed="false">
+                🌙
+            </button>
+            <a href="login_new.html?tab=register" class="btn btn-primary" id="register-btn" style="margin-right: 0.5rem; display:none;">Register</a>
+            <a href="login_new.html" class="profile-btn" id="profile-btn" aria-label="Profile">
+                <span class="visually-hidden">Profile</span>
+                👤
+            </a>
+            <button id="logout-btn" class="btn btn-secondary" style="margin-left: 1rem; display:none;">Logout</button>
+        </div>
+    </nav>
+
+    <main id="main">
+        <!-- Hero Section -->
+        <section class="hero">
+            <video class="hero-video" autoplay muted loop playsinline preload="none">
+                <source src="assets/hero-video.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <div class="hero-overlay">
+                <h1>Welcome to UniqueTrip</h1>
+                <p>The islands that time forgot</p>
+                <form class="search-form">
+                    <label for="from" class="visually-hidden">From</label>
+                    <input type="text" id="from" placeholder="From" required title="Enter your departure city">
+
+                    <label for="to" class="visually-hidden">To</label>
+                    <input type="text" id="to" placeholder="To" required title="Enter your destination city">
+
+                    <label for="date" class="visually-hidden">Date</label>
+                    <input type="date" id="date" required title="Select your travel date">
+
+                    <button type="submit" title="Search for available trips">
+                        <span class="visually-hidden">Search for trips</span>
+                        Search
+                    </button>
+                </form>
+            </div>
+        </section>
+            <div class="spinner-overlay" id="spinner-overlay">
+              <div class="spinner"></div>
+            </div>
+
+        <!-- Search Results Section -->
+        <section id="search-results" class="section search-results" style="display: none;">
+            <div class="results-header">
+                <h2 class="section-title">🔍 Search Results</h2>
+                <button id="clear-results" class="btn btn-secondary">Clear Results</button>
+            </div>
+            <div id="results-content" class="results-content">
+                <!-- Results will be dynamically inserted here -->
+            </div>
+        </section>
+
+        <!-- Show AI Button (appears when section is hidden) -->
+        <div class="show-ai-container hidden" id="show-ai-container">
+            <button id="show-ai-section" class="btn btn-primary">
+                🤖 Show AI Recommendations
+            </button>
+        </div>
+
+        <!-- AI Recommendations -->
+        <section class="section ai-recommendations" id="ai-recommendations-section">
+            <button class="ai-section-close" id="close-ai-section" aria-label="Close AI recommendations" title="Close AI Recommendations">
+                ✕
+            </button>
+            <div class="ai-header">
+                <h2 class="section-title">
+                    <span class="ai-icon">🤖</span> AI Personalized Recommendations
+                </h2>
+                <p class="ai-subtitle">Tailored just for you based on your preferences and travel history</p>
+                <div class="ai-controls">
+                    <button id="set-preferences-btn" class="btn btn-secondary">
+                        ⚙️ Set Preferences
+                    </button>
+                    <button id="refresh-recommendations-btn" class="btn btn-secondary">
+                        🔄 Refresh
+                    </button>
+                </div>
+            </div>
+            <div id="ai-recommendations-grid" class="cards-grid">
+                <!-- AI recommendations will be dynamically generated here -->
+                <div class="card ai-card ai-loading">
+                    <div class="loading-animation">
+                        <div class="spinner"></div>
+                        <p>🤖 AI is analyzing your preferences...</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- AI Preferences Modal -->
+        <div id="ai-preferences-modal" class="modal" role="dialog" aria-labelledby="modal-title" aria-hidden="true">
+            <div class="modal-content">
+                <button class="modal-close" aria-label="Close preferences">&times;</button>
+                <h2 id="modal-title">🤖 Customize Your AI Recommendations</h2>
+                <p>Tell us about your travel preferences to get personalized recommendations</p>
+                
+                <form id="preferences-form">
+                    <div class="form-group">
+                        <label for="travel-style">Travel Style</label>
+                        <select id="travel-style" required>
+                            <option value="">Select your style</option>
+                            <option value="adventure">Adventure Seeker</option>
+                            <option value="relaxation">Relaxation & Beach</option>
+                            <option value="culture">Culture & History</option>
+                            <option value="luxury">Luxury Travel</option>
+                            <option value="budget">Budget Explorer</option>
+                            <option value="family">Family Friendly</option>
+                            <option value="romantic">Romantic Getaway</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Preferred Activities (Select multiple)</label>
+                        <div class="checkbox-grid">
+                            <label><input type="checkbox" name="activities" value="beaches"> 🏖️ Beaches</label>
+                            <label><input type="checkbox" name="activities" value="mountains"> 🏔️ Mountains</label>
+                            <label><input type="checkbox" name="activities" value="culture"> 🛕 Culture</label>
+                            <label><input type="checkbox" name="activities" value="food"> 🍜 Food</label>
+                            <label><input type="checkbox" name="activities" value="shopping"> 🛍️ Shopping</label>
+                            <label><input type="checkbox" name="activities" value="adventure"> 🪂 Adventure</label>
+                            <label><input type="checkbox" name="activities" value="wildlife"> 🦁 Wildlife</label>
+                            <label><input type="checkbox" name="activities" value="nightlife"> 🌃 Nightlife</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="budget">Budget Range (per person)</label>
+                        <select id="budget" required>
+                            <option value="">Select budget</option>
+                            <option value="low">₹20,000 - ₹50,000</option>
+                            <option value="medium">₹50,000 - ₹1,00,000</option>
+                            <option value="high">₹1,00,000 - ₹2,00,000</option>
+                            <option value="luxury">₹2,00,000+</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="climate">Preferred Climate</label>
+                        <select id="climate" required>
+                            <option value="">Select climate</option>
+                            <option value="tropical">Tropical & Warm</option>
+                            <option value="cold">Cold & Snowy</option>
+                            <option value="moderate">Moderate/Mild</option>
+                            <option value="any">Any Climate</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="duration">Typical Trip Duration</label>
+                        <select id="duration" required>
+                            <option value="">Select duration</option>
+                            <option value="short">2-4 Nights</option>
+                            <option value="medium">5-7 Nights</option>
+                            <option value="long">8+ Nights</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">
+                        Generate AI Recommendations
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Popular Packages -->
+        <section class="section">
+            <h2 class="section-title">Most Popular Packages</h2>
+            <div class="cards-grid">
+                <div class="card">
+                    <img loading="lazy" src="https://images.pexels.com/photos/3601425/pexels-photo-3601425.jpeg" alt="Goa Beach Resort Package">
+                    <div class="card-content">
+                        <h3>🏖️ Goa Beach Paradise</h3>
+                        <p>📍 Goa, India | 5 Nights | ₹45,000</p>
+                        <button class="btn" onclick="startServiceBooking('holiday', 1, 'Goa Beach Paradise', 45000)">Book Now</button>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <img loading="lazy" src="https://images.pexels.com/photos/3408354/pexels-photo-3408354.jpeg" alt="Manali Adventure Package">
+                    <div class="card-content">
+                        <h3>⛰️ Manali Mountain Escape</h3>
+                        <p>📍 Manali, Himachal Pradesh | 6 Nights | ₹55,000</p>
+                        <button class="btn" onclick="startServiceBooking('holiday', 2, 'Manali Mountain Escape', 55000)">Book Now</button>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <img loading="lazy" src="https://images.pexels.com/photos/2341595/pexels-photo-2341595.jpeg" alt="Kerala Houseboat Experience">
+                    <div class="card-content">
+                        <h3>🚢 Kerala Backwaters</h3>
+                        <p>📍 Alleppey, Kerala | 4 Nights | ₹38,000</p>
+                        <button class="btn" onclick="startServiceBooking('holiday', 3, 'Kerala Backwaters', 38000)">Book Now</button>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <img loading="lazy" src="https://images.pexels.com/photos/1583339/pexels-photo-1583339.jpeg" alt="Jaipur Heritage Tour">
+                    <div class="card-content">
+                        <h3>🏰 Jaipur Royal Heritage</h3>
+                        <p>📍 Jaipur, Rajasthan | 3 Nights | ₹32,000</p>
+                        <button class="btn" onclick="startServiceBooking('holiday', 4, 'Jaipur Royal Heritage', 32000)">Book Now</button>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <img loading="lazy" src="https://images.pexels.com/photos/1586298/pexels-photo-1586298.jpeg" alt="Maldives Luxury Resort">
+                    <div class="card-content">
+                        <h3>🏝️ Maldives Luxury Retreat</h3>
+                        <p>📍 Maldives | 7 Nights | ₹1,50,000</p>
+                        <button class="btn" onclick="startServiceBooking('holiday', 5, 'Maldives Luxury Retreat', 150000)">Book Now</button>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <img loading="lazy" src="https://images.pexels.com/photos/2437299/pexels-photo-2437299.jpeg" alt="Ladakh Adventure">
+                    <div class="card-content">
+                        <h3>🏔️ Ladakh Bike Expedition</h3>
+                        <p>📍 Leh-Ladakh | 8 Nights | ₹65,000</p>
+                        <button class="btn" onclick="startServiceBooking('holiday', 6, 'Ladakh Bike Expedition', 65000)">Book Now</button>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <img loading="lazy" src="https://images.pexels.com/photos/2474689/pexels-photo-2474689.jpeg" alt="Dubai Shopping Festival">
+                    <div class="card-content">
+                        <h3>🛍️ Dubai Extravaganza</h3>
+                        <p>📍 Dubai, UAE | 5 Nights | ₹95,000</p>
+                        <button class="btn" onclick="startServiceBooking('holiday', 7, 'Dubai Extravaganza', 95000)">Book Now</button>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <img loading="lazy" src="https://images.pexels.com/photos/2166559/pexels-photo-2166559.jpeg" alt="Andaman Islands">
+                    <div class="card-content">
+                        <h3>🤿 Andaman Island Hopping</h3>
+                        <p>📍 Andaman & Nicobar | 6 Nights | ₹52,000</p>
+                        <button class="btn" onclick="startServiceBooking('holiday', 8, 'Andaman Island Hopping', 52000)">Book Now</button>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <img loading="lazy" src="https://images.pexels.com/photos/2187605/pexels-photo-2187605.jpeg" alt="Udaipur Lake City">
+                    <div class="card-content">
+                        <h3>🌅 Udaipur Lake Palace</h3>
+                        <p>📍 Udaipur, Rajasthan | 4 Nights | ₹42,000</p>
+                        <button class="btn" onclick="startServiceBooking('holiday', 9, 'Udaipur Lake Palace', 42000)">Book Now</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Things to Do -->
+        <section class="section">
+            <h2 class="section-title">Things to Do in Paradise</h2>
+            <div class="cards-grid">
+                <div class="card">
+                    <img src="https://images.pexels.com/photos/1007903/pexels-photo-1007903.jpeg" alt="Snorkeling in crystal clear waters">
+                    <div class="card-content">
+                        <h3>Snorkeling</h3>
+                        <p>Explore vibrant coral reefs</p>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <img src="https://images.pexels.com/photos/2362002/pexels-photo-2362002.jpeg" alt="Relaxing on pristine beach">
+                    <div class="card-content">
+                        <h3>Beach Relaxing</h3>
+                        <p>Unwind on white sand beaches</p>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <img src="https://images.pexels.com/photos/3573351/pexels-photo-3573351.jpeg" alt="Island hopping adventure">
+                    <div class="card-content">
+                        <h3>Island Hopping</h3>
+                        <p>Discover hidden paradise islands</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Deals & Weather -->
+        <section class="section">
+            <h2 class="section-title">Great Deals & Weather</h2>
+            <div class="cards-grid">
+                <div class="card">
+                    <img loading="lazy" src="https://images.pexels.com/photos/3573351/pexels-photo-3573351.jpeg" alt="Special deal on luxury villa">
+                    <div class="card-content">
+                        <h3>Fresh Villa with Huge Sale</h3>
+                        <p>₹1,10,000 | Save 20%</p>
+                        <button class="btn" onclick="startServiceBooking('holiday', 10, 'Fresh Villa with Huge Sale', 110000)">Book Now</button>
+                    </div>
+                </div>
+                
+                <div class="weather-card">
+                    <h3>Paradise Weather</h3>
+                    <p>Sunny, 29°C</p>
+                    <img loading="lazy" src="https://cdn-icons-png.flaticon.com/512/869/869869.png" alt="Sunny weather icon">
+                </div>
+            </div>
+        </section>
+
+        <!-- Team Section -->
+        <section class="section">
+            <h2 class="section-title">Meet Our Team</h2>
+            <div class="team-grid">
+                <div class="team-member"><p>Shrinath</p></div>
+                <div class="team-member"><p>Vaibhav</p></div>
+                <div class="team-member"><p>Yash</p></div>
+                <div class="team-member"><p>Piyush</p></div>
+            </div>
+        </section>
+
+        <!-- Newsletter -->
+        <section class="section">
+            <h2 class="section-title">Subscribe to Our Newsletter</h2>
+            <form class="newsletter-form" onsubmit="return false;">
+                <label for="newsletter-email" class="visually-hidden">Your Email</label>
+                <input type="email" id="newsletter-email" placeholder="Your Email" required>
+                <button type="submit" class="btn">
+                    <span class="visually-hidden">Subscribe to newsletter</span>
+                    Subscribe Now
+                </button>
+            </form>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer" role="contentinfo">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Menu</h3>
+                <ul>
+                    <li><a href="index_new.html">Home</a></li>
+                    <li><a href="flights_new.html">Flights</a></li>
+                    <li><a href="hotels_new.html">Hotels</a></li>
+                    <li><a href="holidays_new.html">Holidays</a></li>
+                    <li><a href="trains_new.html">Trains</a></li>
+                    <li><a href="buses_new.html">Buses</a></li>
+                    <li><a href="cabs_new.html">Cabs</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Stay Connected</h3>
+                <ul>
+                    <li><a href="#">Facebook</a></li>
+                    <li><a href="#">Instagram</a></li>
+                    <li><a href="#">Twitter</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2025 UniqueTrip. All rights reserved.</p>
+        </div>
+    </footer>
+    <script defer src="script.js"></script>
+    <script defer src="ai-recommendations.js"></script>
+</body>
+</html>

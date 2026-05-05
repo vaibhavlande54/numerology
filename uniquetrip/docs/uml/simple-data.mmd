@@ -1,0 +1,28 @@
+classDiagram
+  class users {
+    +id: int
+    +name: varchar
+    +email: varchar
+    +password: varchar
+  }
+
+  class flights {
+    +id: int
+    +from_city: varchar
+    +to_city: varchar
+    +flight_no: varchar
+    +price: int
+  }
+
+  class bookings {
+    +id: int
+    +booking_reference: varchar
+    +flight_id: int
+    +service_type: varchar
+    +service_id: int
+    +service_name: varchar
+    +passenger_name: varchar
+    +total_price: int
+  }
+
+  bookings --> flights : may reference

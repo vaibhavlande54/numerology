@@ -1,0 +1,18 @@
+sequenceDiagram
+  autonumber
+  participant U as User
+  participant JS as script.js
+  participant BK as booking.js
+  participant API as Express /api
+  participant DB as MySQL
+
+  U->>JS: Click Book Now (homepage card)
+  JS->>U: Redirect booking.html?serviceType=holiday&id=...&name=...&price=...
+  U->>BK: Page load (booking.html)
+  BK->>U: Show service summary (from URL params)
+  U->>BK: Enter passenger + pay
+  BK->>API: POST /api/bookings { serviceType, serviceId, serviceName, ... }
+  API->>DB: INSERT bookings
+  DB-->>API: OK (id, ref)
+  API-->>BK: 200 { booking }
+  BK->>U: Confirmation (booking ref)

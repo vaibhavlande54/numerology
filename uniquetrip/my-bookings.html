@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light dark">
+    <meta name="description" content="View and manage all your travel bookings - flights, hotels, trains, buses, cabs, and holiday packages.">
+    <meta name="keywords" content="my bookings, travel bookings, flight bookings, hotel bookings">
+    <title>My Bookings - UniqueTrip | Manage Your Travel</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <link rel="alternate icon" href="assets/favicon.svg">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="my-bookings.css">
+</head>
+<body>
+    <a href="#main" class="skip-link">Skip to main content</a>
+    <!-- Navbar -->
+    <nav class="navbar" role="navigation" aria-label="Main Navigation">
+        <a href="index_new.html" class="logo">UniqueTrip</a>
+        <button class="nav-toggle" aria-label="Open navigation" aria-controls="nav-links" aria-expanded="false" tabindex="0">☰</button>
+        <ul class="nav-links" id="nav-links">
+            <li><a href="index_new.html">Home</a></li>
+            <li><a href="flights_new.html">Flights</a></li>
+            <li><a href="hotels_new.html">Hotels</a></li>
+            <li><a href="holidays_new.html">Holidays</a></li>
+            <li><a href="trains_new.html">Trains</a></li>
+            <li><a href="buses_new.html">Buses</a></li>
+            <li><a href="cabs_new.html">Cabs</a></li>
+            <li><a href="my-bookings.html" class="active">My Bookings</a></li>
+        </ul>
+        <div class="nav-right">
+            <button id="theme-toggle" aria-label="Toggle dark mode" aria-pressed="false">
+                🌙
+            </button>
+            <a href="login_new.html?tab=register" class="btn btn-primary" id="register-btn" style="margin-right: 0.5rem; display:none;">Register</a>
+            <a href="login_new.html" class="profile-btn" id="profile-btn" aria-label="Profile">
+                <span class="visually-hidden">Profile</span>
+                👤
+            </a>
+            <button id="logout-btn" class="btn btn-secondary" style="margin-left: 1rem; display:none;">Logout</button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main id="main" class="bookings-main">
+        <div class="bookings-container">
+            <div class="page-header">
+                <h1><i class="fas fa-ticket-alt"></i> My Bookings</h1>
+                <p>View and manage all your travel bookings</p>
+            </div>
+
+            <!-- Filter Options -->
+            <div class="filter-bar">
+                <div class="filter-group">
+                    <button class="filter-btn active" data-filter="all">
+                        <i class="fas fa-list"></i> All Bookings
+                    </button>
+                    <button class="filter-btn" data-filter="confirmed">
+                        <i class="fas fa-check-circle"></i> Confirmed
+                    </button>
+                    <button class="filter-btn" data-filter="cancelled">
+                        <i class="fas fa-times-circle"></i> Cancelled
+                    </button>
+                </div>
+                
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchBookings" placeholder="Search by booking reference or flight...">
+                </div>
+            </div>
+
+            <!-- Bookings List -->
+            <div class="bookings-list" id="bookingsList">
+                <!-- Bookings will be loaded here dynamically -->
+                <div class="loading-state">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>Loading your bookings...</p>
+                </div>
+            </div>
+
+            <!-- Empty State -->
+            <div class="empty-state" id="emptyState" style="display: none;">
+                <i class="fas fa-plane-slash"></i>
+                <h2>No Bookings Found</h2>
+                <p>You haven't made any bookings yet. Start planning your next trip!</p>
+                <a href="flights_new.html" class="btn btn-primary">
+                    <i class="fas fa-search"></i> Search Flights
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Booking Detail Modal -->
+    <div class="modal" id="detailModal">
+        <div class="modal-content booking-detail-modal">
+            <button class="modal-close" id="closeDetailModal">
+                <i class="fas fa-times"></i>
+            </button>
+            
+            <div class="modal-header">
+                <h2>Booking Details</h2>
+                <span class="booking-status" id="modalStatus">Confirmed</span>
+            </div>
+
+            <div class="modal-body">
+                <div class="detail-section">
+                    <div class="booking-ref-display">
+                        <span class="ref-label">Booking Reference</span>
+                        <span class="ref-number" id="modalBookingRef">-</span>
+                    </div>
+                </div>
+
+                <div class="detail-section">
+                    <h3><i class="fas fa-plane"></i> Flight Details</h3>
+                    <div class="flight-route-display">
+                        <div class="route-point">
+                            <h4 id="modalFromCity">-</h4>
+                            <span id="modalDepartureTime">-</span>
+                        </div>
+                        <div class="route-middle">
+                            <i class="fas fa-arrow-right"></i>
+                            <span id="modalDuration">-</span>
+                        </div>
+                        <div class="route-point">
+                            <h4 id="modalToCity">-</h4>
+                            <span id="modalArrivalTime">-</span>
+                        </div>
+                    </div>
+                    <div class="flight-info-grid">
+                        <div class="info-item">
+                            <span class="label">Flight Number</span>
+                            <span class="value" id="modalFlightNumber">-</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="label">Airline</span>
+                            <span class="value" id="modalAirline">-</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="label">Travel Date</span>
+                            <span class="value" id="modalTravelDate">-</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="label">Stops</span>
+                            <span class="value" id="modalStops">-</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-section">
+                    <h3><i class="fas fa-users"></i> Passenger Details</h3>
+                    <div class="passenger-info">
+                        <div class="info-item">
+                            <span class="label">Passenger Name</span>
+                            <span class="value" id="modalPassengerName">-</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="label">Email</span>
+                            <span class="value" id="modalEmail">-</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="label">Phone</span>
+                            <span class="value" id="modalPhone">-</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="label">Number of Passengers</span>
+                            <span class="value" id="modalNumPassengers">-</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-section">
+                    <h3><i class="fas fa-receipt"></i> Payment Details</h3>
+                    <div class="payment-info">
+                        <div class="price-row">
+                            <span>Total Amount Paid</span>
+                            <span class="amount" id="modalTotalPrice">₹0</span>
+                        </div>
+                        <div class="booking-date">
+                            <i class="fas fa-calendar"></i>
+                            <span>Booked on: <span id="modalBookedAt">-</span></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="window.print()">
+                    <i class="fas fa-print"></i> Print Ticket
+                </button>
+                <button class="btn btn-danger" id="cancelBookingBtn">
+                    <i class="fas fa-times"></i> Cancel Booking
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+        <footer class="footer" role="contentinfo">
+        <div class="footer-content">
+            <div class="footer-section">
+                    <h3>Menu</h3>
+                <ul>
+                    <li><a href="index_new.html">Home</a></li>
+                        <li><a href="flights_new.html">Flights</a></li>
+                        <li><a href="hotels_new.html">Hotels</a></li>
+                        <li><a href="holidays_new.html">Holidays</a></li>
+                        <li><a href="trains_new.html">Trains</a></li>
+                        <li><a href="buses_new.html">Buses</a></li>
+                        <li><a href="cabs_new.html">Cabs</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Contact</h3>
+                    <p>info@uniquetrip.com</p>
+                    <p>+91 98765 43210</p>
+                </div>
+            
+                <div class="footer-section">
+                    <h3>Stay Connected</h3>
+                    <ul>
+                        <li><a href="#">Facebook</a></li>
+                        <li><a href="#">Instagram</a></li>
+                        <li><a href="#">Twitter</a></li>
+                    </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+                <p>&copy; 2025 UniqueTrip. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Loading Spinner -->
+    <div class="spinner-overlay" id="spinnerOverlay">
+        <div class="spinner"></div>
+    </div>
+
+    <script src="script.js"></script>
+    <script type="module" src="supabaseClient.js"></script>
+    <script src="my-bookings.js"></script>
+</body>
+</html>

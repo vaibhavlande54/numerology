@@ -1,0 +1,14 @@
+sequenceDiagram
+  participant U as User
+  participant UI as Web UI
+  participant API as Express API
+  participant DB as MySQL
+
+  U->>UI: Click Book Now
+  UI->>UI: Show booking details
+  U->>UI: Enter passenger & pay
+  UI->>API: POST /api/bookings
+  API->>DB: INSERT booking
+  DB-->>API: OK (id, reference)
+  API-->>UI: 200 { booking }
+  UI->>U: Show confirmation (ref)

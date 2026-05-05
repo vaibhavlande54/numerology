@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light dark">
+    <title>Buses | UniqueTrip</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="buses.css">
+</head>
+<body>
+    <nav class="navbar" role="navigation" aria-label="Main Navigation">
+        <a href="index_new.html" class="logo">UniqueTrip</a>
+        <button class="nav-toggle" aria-label="Open navigation" aria-controls="nav-links" aria-expanded="false" tabindex="0">☰</button>
+        <ul class="nav-links" id="nav-links">
+            <li><a href="index_new.html">Home</a></li>
+            <li><a href="flights_new.html">Flights</a></li>
+            <li><a href="hotels_new.html">Hotels</a></li>
+            <li><a href="holidays_new.html">Holidays</a></li>
+            <li><a href="trains_new.html">Trains</a></li>
+            <li><a href="buses_new.html">Buses</a></li>
+            <li><a href="cabs_new.html">Cabs</a></li>
+            <li><a href="my-bookings.html">My Bookings</a></li>
+        </ul>
+        
+        <div class="nav-right">
+            <button id="theme-toggle" aria-label="Toggle dark mode" aria-pressed="false">🌙</button>
+                <a href="login_new.html?tab=register" class="btn btn-primary" id="register-btn" style="margin-right: 0.5rem; display:none;">Register</a>
+            <a href="login_new.html" class="profile-btn" id="profile-btn" aria-label="Profile">
+                <span class="visually-hidden">Profile</span>👤
+            </a>
+                <button id="logout-btn" class="btn btn-secondary" style="margin-left: 1rem; display:none;">Logout</button>
+        </div>
+    </nav>
+
+    <main>
+        <section class="hero-section">
+            <h1>Book Bus Tickets</h1>
+            <p>Comfortable and affordable bus journeys</p>
+            
+            <div class="search-box">
+                <form class="search-form buses-search-form">
+                    <div class="form-group">
+                        <label for="from">From</label>
+                        <input type="text" id="from" class="from" placeholder="Departure City" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="to">To</label>
+                        <input type="text" id="to" class="to" placeholder="Arrival City" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="departure">Departure</label>
+                        <input type="date" id="departure" class="date" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="return">Return</label>
+                        <input type="date" id="return">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="passengers">Passengers</label>
+                        <select id="passengers">
+                            <option>1 Passenger</option>
+                            <option>2 Passengers</option>
+                            <option>3 Passengers</option>
+                            <option>4+ Passengers</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="class">Class</label>
+                        <select id="class">
+                            <option>Economy</option>
+                            <option>Premium Economy</option>
+                            <option>Business</option>
+                            <option>First Class</option>
+                        </select>
+                    </div>
+                    
+                    <button type="submit" class="search-btn">Search Buses</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Search Results Section (Hidden by default) -->
+        <section id="buses-results" class="section" style="display: none;">
+            <div class="section-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                <h2 class="section-title">Search Results</h2>
+                <button id="clear-buses-results" class="btn btn-secondary">Clear Results</button>
+            </div>
+            <div id="buses-results-content"></div>
+        </section>
+
+        <section class="section">
+            <h2 class="section-title">Featured Buses</h2>
+            <div class="flights-grid">
+                <div class="flight-card">
+                    <div class="flight-info">
+                        <div class="airline">VRL Travels - Volvo AC</div>
+                        <div class="route">
+                            <span>MUM</span>
+                            <span class="route-arrow">→</span>
+                            <span>PUN</span>
+                        </div>
+                        <div class="flight-details">
+                            Departure: 11:00 PM • Duration: 3h 30m • 45 Seats
+                        </div>
+                    </div>
+                    <div class="flight-price">
+                        <div class="price">₹650</div>
+                        <button class="btn" onclick="bookService('bus', 1, 'VRL Volvo - MUM to PUN', 650)">Book Now</button>
+                    </div>
+                </div>
+
+                <div class="flight-card">
+                    <div class="flight-info">
+                        <div class="airline">RSRTC - AC Sleeper</div>
+                        <div class="route">
+                            <span>DEL</span>
+                            <span class="route-arrow">→</span>
+                            <span>JAI</span>
+                        </div>
+                        <div class="flight-details">
+                            Departure: 10:30 PM • Duration: 5h 30m • 40 Seats
+                        </div>
+                    </div>
+                    <div class="flight-price">
+                        <div class="price">₹850</div>
+                        <button class="btn" onclick="bookService('bus', 2, 'RSRTC Sleeper - DEL to JAI', 850)">Book Now</button>
+                    </div>
+                </div>
+
+                <div class="flight-card">
+                    <div class="flight-info">
+                        <div class="airline">Orange Travels - Semi Sleeper</div>
+                        <div class="route">
+                            <span>BLR</span>
+                            <span class="route-arrow">→</span>
+                            <span>CHE</span>
+                        </div>
+                        <div class="flight-details">
+                            Departure: 09:00 PM • Duration: 7h 30m • 38 Seats
+                        </div>
+                    </div>
+                    <div class="flight-price">
+                        <div class="price">₹950</div>
+                        <button class="btn" onclick="bookService('bus', 3, 'Orange Travels - BLR to CHE', 950)">Book Now</button>
+                    </div>
+                </div>
+
+                <div class="flight-card">
+                    <div class="flight-info">
+                        <div class="airline">Paulo Travels - AC Sleeper</div>
+                        <div class="route">
+                            <span>PUN</span>
+                            <span class="route-arrow">→</span>
+                            <span>GOA</span>
+                        </div>
+                        <div class="flight-details">
+                            Departure: 08:00 PM • Duration: 11h • 30 Seats
+                        </div>
+                    </div>
+                    <div class="flight-price">
+                        <div class="price">₹1,200</div>
+                        <button class="btn" onclick="bookService('bus', 4, 'Paulo Travels - PUN to GOA', 1200)">Book Now</button>
+                    </div>
+                </div>
+
+                <div class="flight-card">
+                    <div class="flight-info">
+                        <div class="airline">SRS Travels - Volvo Multi-Axle</div>
+                        <div class="route">
+                            <span>HYD</span>
+                            <span class="route-arrow">→</span>
+                            <span>VIJ</span>
+                        </div>
+                        <div class="flight-details">
+                            Departure: 07:00 PM • Duration: 5h • 42 Seats
+                        </div>
+                    </div>
+                    <div class="flight-price">
+                        <div class="price">₹750</div>
+                        <button class="btn" onclick="bookService('bus', 5, 'SRS Travels - HYD to VIJ', 750)">Book Now</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer" role="contentinfo">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Menu</h3>
+                <ul>
+                    <li><a href="index_new.html">Home</a></li>
+                    <li><a href="flights_new.html">Flights</a></li>
+                    <li><a href="hotels_new.html">Hotels</a></li>
+                    <li><a href="holidays_new.html">Holidays</a></li>
+                    <li><a href="trains_new.html">Trains</a></li>
+                    <li><a href="buses_new.html">Buses</a></li>
+                    <li><a href="cabs_new.html">Cabs</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <p>info@uniquetrip.com</p>
+                <p>+91 98765 43210</p>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Stay Connected</h3>
+                <ul>
+                    <li><a href="#">Facebook</a></li>
+                    <li><a href="#">Instagram</a></li>
+                    <li><a href="#">Twitter</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2025 UniqueTrip. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script defer src="script.js"></script>
+</body>
+</html>

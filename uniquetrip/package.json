@@ -1,0 +1,25 @@
+{
+  "name": "makemytrip_clone",
+  "version": "1.0.0",
+  "description": "A complete, fully functional travel booking website with backend API integration, user authentication, flight search, and booking management.",
+  "main": "ai-recommendations.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.13.2",
+    "body-parser": "^2.2.0",
+    "cors": "^2.8.5",
+    "docx": "^8.5.0",
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "mysql2": "^3.15.3"
+  }
+}

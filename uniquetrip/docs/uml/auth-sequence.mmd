@@ -1,0 +1,19 @@
+sequenceDiagram
+  autonumber
+  participant U as User (Browser)
+  participant JS as script.js
+  participant API as Express /api/auth
+  participant DB as MySQL
+
+  U->>JS: Submit login (email, password)
+  JS->>API: POST /api/auth/login
+  API->>DB: SELECT user by email
+  DB-->>API: user row (hashed password)
+  API->>API: bcrypt.compare
+  alt valid credentials
+    API-->>JS: 200 { token, user }
+    JS->>U: Store token (localStorage) & redirect
+  else invalid
+    API-->>JS: 401 { error }
+    JS->>U: Show error notification
+  end

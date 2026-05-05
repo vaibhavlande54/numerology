@@ -1,0 +1,21 @@
+<!-- Favicon SVG - Modern plane icon -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1e40af;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#3b82f6;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <!-- Plane body -->
+  <path d="M50 28 L38 32 L20 32 L12 28 L6 26 L8 22 L14 20 L18 16 L28 12 L38 14 L48 18 L54 22 L56 26 Z" 
+        fill="url(#grad)" stroke="#1e3a8a" stroke-width="1.5"/>
+  <!-- Wing -->
+  <path d="M32 32 L28 42 L24 44 L22 42 L26 34 Z" 
+        fill="#60a5fa" stroke="#1e3a8a" stroke-width="1"/>
+  <!-- Tail -->
+  <path d="M12 28 L8 34 L10 36 L14 32 Z" 
+        fill="#60a5fa" stroke="#1e3a8a" stroke-width="1"/>
+  <!-- Window -->
+  <circle cx="42" cy="24" r="3" fill="#e0f2fe" stroke="#1e3a8a" stroke-width="1"/>
+  <circle cx="48" cy="24" r="2.5" fill="#e0f2fe" stroke="#1e3a8a" stroke-width="1"/>
+</svg>
