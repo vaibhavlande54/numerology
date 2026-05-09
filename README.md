@@ -1,2 +1,2 @@
-# uniquetrip
-AI recommendation sytem 
+# numerology prediction 
+ai comdels
